@@ -1,0 +1,1 @@
+sshpass -p odroid ssh -X odroid@192.168.0.190

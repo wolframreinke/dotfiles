@@ -1,0 +1,58 @@
+CPU/GPU Temperature Measurement script by Wolfram Reinke (2014)
+
+DESCRIPTION
+
+	This script measures the CPU and GPU temperatures and displays them
+	by using a user-specified format string. For some of the possible
+	format strings, the script provides pre-defined options.
+	Furthermore, the script can be run in infinite-loop-mode, that is, the
+	script will print the formatted output every second, until the user
+	terminates it.
+
+USAGE
+
+	temperature [OPTIONS] [TEMPLATE]
+
+	If no options are provided, the measured temperatures are printed once.
+	If no options at all are specified, the script measures the CPU
+	temperature and displays it.
+
+OPTIONS
+
+	-h 
+	--help:		Displays this help message and exits the script.
+
+	-l
+	--loop:		Runs the script in loop mode. Consequently, the script
+			will not stop, until the user terminates it and print
+			the formatted values every second.
+
+	-c
+	--cpu		Appends the wildcard %cpu to the template string.
+			As a result, the CPU temperature will be printed.
+
+	-g
+	--gpu		Appends the wildcard %gpu to the template string.
+			As a result, the GPU temperature will be printed.
+
+	-t
+	--template	Uses the specified template to format the output.
+
+	-f
+	--format	Measures both, CPU and GPU temperature and prints them
+			as key-value-pairs to STDOUT. This output can be used
+			by the 'format' command. Other arguments are ignored.
+
+TEMPLATE
+
+	The template string is an arbitrary string, which may contain C-like
+	control characters (such like \n and \t), and which may contain the
+	following wildcards
+
+	%cpu		This wildcard is replaced with the measured CPU
+			temperature in degrees Celsius. The resulting number is
+			an fixed-point number with one decimal place.
+
+	%gpu		This wildcard is replaced with the measured GPU
+			temperature in degrees Celsius. The resultin number is
+			a fixed-point number with two decimal places.

@@ -1,0 +1,20 @@
+/* --------------------------------------------------------------------------
+ * Filename : %(program|program name).c
+ * Author   : %(author)
+ * Date     : $(date '+%m/%d/%y')
+ * ---------------------------------------------------------------------------
+ *
+ *  Add a description here!
+ *
+ * ---------------------------------------------------------------------------
+ */&(FILENAME=$(echo $program).c)
+
+#include <stdlib.h>
+
+int
+main( int argc, char *argv[] )
+{
+
+        
+        exit( EXIT_SUCCESS );
+}

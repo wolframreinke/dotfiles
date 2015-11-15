@@ -1,0 +1,4 @@
+.vim/undo
+.vim/thesaurus.txt
+scripts/bookmarks/permanent/*.bm
+scripts/bookmarks/temporary/*.bm

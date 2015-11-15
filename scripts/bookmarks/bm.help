@@ -1,0 +1,53 @@
+Bookmarking script by Wolfram Reinke (2014, v1.1)
+
+DESCRIPTION
+
+    This script manages bookmarks, which associate a name or an abbreviation
+    with a location on the local computer. It allows to create bookmarks, jump
+    to bookmarked locations, and to delete existing bookmarks. This script
+    distinguishes between temporary and permanent bookmarks. The former ones
+    are deleted whenever the user's .bashrc file is sourced.
+
+USAGE
+
+    bm [OPTIONS] [NAME]
+
+    If no MODE is provided, then the action, this script performs, depends on
+    the specified NAME. If there already exists a bookmark with this name, then
+    the current directory is changed to the bookmarked one. If not, a new
+    bookmark is created at the current location.  If no NAME is provided, the
+    user is prompted to enter one.
+
+OPTIONS
+
+    -h  --help      Displays this help message and exits the script.
+
+    -s  -set        The current position will be saved in association with the 
+                    given NAME, regardless of whether the NAME is already
+                    occupied.
+
+    -g  -goto       The current directory is changed to the location, associated
+                    with the specified NAME, if it exists.
+
+    -l  -list       Prints a list of currently defined bookmarks. The output is
+                    divided in two categories: temporary book- marks and
+                    permanent bookmarks.
+
+    -r  -remove     Deletes the bookmark with the specified NAME.
+
+    -p  -print      Prints the bookmarked location, but does not change the 
+                    working directory.
+
+    -t  -tmp        Influences the -s|--save option. If this option is chosen,
+                    newly created bookmarks are created in the temporary
+                    directory, which will be cleared whenever the user's
+                    .bashrc is sourced.
+
+    -ct --cleartmp  Clears the temporary bookmarks directory, that is, all 
+                    contained bookmarks are deleted.
+
+VERSION HISTORY
+
+    v1.0        Creation of the major portion of this script
+    v1.1        Added temporary bookmark support
+    v1.2        Added -p/--print command

@@ -1,0 +1,30 @@
+/* ---------------------------------------------------------------------------
+ * Filename : %(class|class name).h
+ * Author   : %(author)
+ * Date     : $(date '+%m/%d/%y')
+ * ---------------------------------------------------------------------------
+ *
+ * Add a file description here.
+ *
+ * ---------------------------------------------------------------------------
+ */&(FILENAME=$(echo $class).h)
+
+#ifndef $(echo __${class}_H_ | tr [:lower:] [:upper:])
+#define $(echo __${class}_H_ | tr [:lower:] [:upper:])
+
+/*
+ * $(echo $class)
+ *
+ * Add a class description here.
+ *
+ */
+class $(echo $class)
+{
+private:
+
+public:
+        $(echo $class)( void );
+        ~$(echo $class)( void );
+};
+
+#endif /* $(echo __${class}_H_ | tr [:lower:] [:upper:]) */

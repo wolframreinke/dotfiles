@@ -1,0 +1,43 @@
+#! /bin/bash
+
+if [ ! -z "${1}" ]; then
+
+    FILENAME="${1%.*}"
+    EXTENSION="${1##*.}"
+
+    if [ "${FILENAME}" == "${EXTENSION}" ]; then
+        if [ ! -e ${FILENAME}.c -a ! -e ${FILENAME}.h  ]; then
+            echo -ne "${FILENAME}\n\n" | new -q c module
+        fi
+        tmux send-keys "vim ${FILENAME}.c ${FILENAME}.h -O" C-m
+    else
+        tmux send-keys "vim ${1}" C-m
+    fi
+else
+    echo "Enter a file or module name to start a new C-editing session.  If\
+          the filename ends in '.c', only one C-file is created, if it ends\
+          in '.h', a header is created.  If no extension is supplied, a header\
+          and a C-file are created." | tr -s " " | fold -w 80 -s
+    echo -n "> "
+    read RESPONSE
+
+    FILENAME="${RESPONSE%.*}"
+    EXTENSION="${RESPONSE##*.}"
+
+    if [ "${FILENAME}" == "${EXTENSION}" ]; then
+        echo -ne "${FILENAME}\n\n" | new -q c module
+        tmux send-keys "vim ${FILENAME}.c ${FILENAME}.h -O" C-m
+    else
+
+        if [ "${EXTENSION}" == c ]; then
+            echo -ne "${FILENAME}\n\n" | new -q c file
+            tmux send-keys "vim ${FILENAME}.c" C-m
+        elif [ "${EXTENSION}" == h ]; then
+            echo -ne "${FILENAME}\n\n" | new -q c header
+            tmux send-keys "vim ${FILENAME}.h" C-m
+        else
+            echo "Unrecognized extension: ${EXTENSION}" >&2
+            exit 1
+        fi
+    fi
+fi

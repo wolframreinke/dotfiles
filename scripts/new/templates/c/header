@@ -1,0 +1,18 @@
+/* --------------------------------------------------------------------------
+ * Filename : %(header|header name).h
+ * Author   : %(author)
+ * Date     : $(date '+%m/%d/%y')
+ * ---------------------------------------------------------------------------
+ *
+ *  Add a description here!
+ *
+ * ---------------------------------------------------------------------------
+ */&(FILENAME=$(echo $header).h)
+
+#ifndef $(echo __${header}_H_ | tr '[:lower:]' '[:upper:]')
+#define $(echo __${header}_H_ | tr '[:lower:]' '[:upper:]')
+
+
+
+#endif /* $(echo __${header}_H_ | tr '[:lower:]' '[:upper:]') */
+

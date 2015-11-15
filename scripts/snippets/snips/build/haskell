@@ -1,0 +1,13 @@
+#! /usr/bin/env bash
+
+if [ "${1}" == "clean" ]; then
+    rm dev/*
+elif [ "${1}" == "check" ]; then
+    rm dev/* > /dev/null >&1
+    mkdir dev > /dev/null 2>&1
+    ghc --make *.hs -outputdir dev -Wall \
+        && hlint *.hs
+else
+    mkdir dev > /dev/null 2>&1
+    ghc --make *.hs -outputdir dev -Wall
+fi

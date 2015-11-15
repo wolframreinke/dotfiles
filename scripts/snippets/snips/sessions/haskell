@@ -1,0 +1,24 @@
+#! /bin/bash
+# Starts a new haskell editing session with GHCi and vim
+
+if [ -z "${1}" ]; then
+
+    echo "Enter a file or module name to create a new haskell file."
+    echo -n "> "
+    read RESPONSE
+
+    FILENAME="${RESPONSE%.*}"
+    echo -ne "${FILENAME}\n\n" | new --quiet haskell module
+    FILENAME=${FILENAME}.hs
+else
+    FILENAME="${1%.*}"
+    if [ ! -e "${FILENAME}.hs" ]; then
+        echo -ne "${FILENAME}\n\n" | new --quiet haskell module
+    fi
+    FILENAME=${FILENAME}.hs
+fi
+
+tmux send-keys "vim ${FILENAME}" C-m
+tmux split-window -h
+tmux send-keys "ghci ${FILENAME}" C-m
+tmux select-pane -L

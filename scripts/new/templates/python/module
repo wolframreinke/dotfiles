@@ -1,0 +1,16 @@
+#!/usr/bin/env python
+# %(module|module name).py
+
+"""
+Add a module docstring here.  If it is long, make sure the first sentence is
+short summary that makes sense of its own and is separated from the rest of the
+string by a newline.
+"""
+
+# imports: system modules, followed by third-party modules, followed by your own
+#          modules&(FILENAME=$(echo $module).py)
+
+__author__ = "%(author)"
+
+if __name__ == '__main__':
+    pass

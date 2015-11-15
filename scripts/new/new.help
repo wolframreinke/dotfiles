@@ -1,0 +1,89 @@
+Filetemplate management script by Wolfram Reinke (2015, v1.1)
+
+DESCRIPTION
+
+    This script makes it possible to instantiate file templates, that is, to
+    create new files from templates.  File templates have a name and can be
+    grouped to categories, subcategories, and so forth.
+
+USAGE
+
+    new [OPTIONS] [[[...] CATEGORY] SUBCATEGORY] NAME
+
+    If no OPTIONS are provided, then the template with the name NAME is
+    instantiated.  This process will require the user to enter some data about
+    the new file, e.g. the filename and author.
+
+OPTIONS
+
+    -h  --help      Displays this help message and exists the script
+
+    -d  --debug     Enables debug output, which results in very detailed
+                    messages about what the script is doing.
+
+    -q  --quiet     No output whatsoever.  This is virtually useless for
+                    interactive usage, but can be handy to reply to the prompt
+                    in an automated way.  E.g. you could call this script like
+                    so:
+                        > echo "game" | new --quiet C header
+                    This command will produce a new C header file with the name
+                    game.h and all the contents adapted to this name.
+
+    -l  --list      Don't instantiate any template.  In fact, you don't need to
+                    supply any arguments at all.  Instead, all available
+                    templates are listed as a tree showing their category
+                    grouping.
+
+    -v  --vim       If the instantiation was successful, the script will open
+                    the resulting file in VIM.
+
+HOW TO WRITE TEMPLATES
+
+    File templates can be created in the "templates" directory, where the "new"
+    script is located.  Categories and subcategories map to folders in the
+    filesystem, so if you want to create a "C windows program" you simply create
+    a file called "program" inside a folder called "windows" inside a folder
+    called "C".
+
+    The file templates used by this script are plain text files with some
+    special syntax.  There are three special syntax forms, you can embed in file
+    templates:
+
+    %(NAME|PROMPT)      Prompts the user to enter a value and writes this value
+                        to the place where this %() was found.  If you provide a
+                        PROMPT, then this string will be displayed to the
+                        user instead of just the name of the replacement.  An
+                        exemplary template could contain the following line:
+
+                            > Filename: %(module|Enter a module name).c
+
+                        As a side effect, the result will stored in a bash
+                        variable called NAME (i.e. whatever you called your
+                        replacement).  This will come in handy in a moment.
+
+    $(CMD)              Executes the bash command CMD and writes its output to
+                        the place where the $() was found.  If you have prompted
+                        the user before using a %(), you can use the user's
+                        input again, like so:
+
+                            > $(echo $module)
+
+                        And of course you have all the power of bash at your
+                        disposal to transform this value as you like
+
+    &(ASSIGN)           This construct is removed without replacement from the
+                        template file.  ASSIGN has to be a valid bash assignment
+                        command.  This is used to set environment variables that
+                        are then used by the new-script itself.  For instance
+
+                            > &(FILENAME=$(echo $module).h)
+
+                        will set the filename of the new file to the module's
+                        name + ".h".  At the moment FILENAME is the only
+                        variable you can set.
+
+VERSION HISTORY
+
+    v1.0       (?)          Created major portion of the script
+    v1.1    06/30/2015      Added proper command line option handling and this 
+                            help message.

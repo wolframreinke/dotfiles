@@ -1,0 +1,9 @@
+% %(func|Name of the function)  add descriptive oneliner here
+%
+% RESULT = $(echo $func)( PARAMETERS )
+%   add a more elaborate description here
+%&(FILENAME=$(echo $func).m)
+function [«results»] = $(echo $func)( «parameters» )
+
+    «body»
+end

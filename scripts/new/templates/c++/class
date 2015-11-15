@@ -1,0 +1,30 @@
+/* ---------------------------------------------------------------------------
+ * Filename : %(class|class name).cpp
+ * Author   : %(author)
+ * Date     : $(date '+%m/%d/%y')
+ * ---------------------------------------------------------------------------
+ *
+ * Add a file description here.
+ *
+ * ---------------------------------------------------------------------------
+ */&(FILENAME=$(echo $class).cpp)
+
+#include "$(echo $class).h"$(echo -n "$class" | new -q c++ header)
+
+/*
+ * Add a constructor description here.
+ *
+ */
+$(echo $class)::$(echo $class)( void )
+{
+
+}
+
+/*
+ * Add a destructor description here.
+ *
+ */
+$(echo $class)::~$(echo $class)( void )
+{
+
+}

@@ -1,0 +1,20 @@
+#! /bin/bash
+# Starts a new haskell editing session with GHCi and vim
+
+if [ -z "${1}" ]; then
+
+    echo "Enter a file or module name to start a new python2 session."
+    echo -n "> "
+    read RESPONSE
+
+    FILENAME="${RESPONSE%.*}"
+    echo -ne "${FILENAME}\n\n" | new -q python module
+    FILENAME=${FILENAME}.py
+else
+    FILENAME="${1%.*}"
+    FILENAME=${FILENAME}.py
+fi
+
+tmux send-keys "vim ${FILENAME}" C-m
+tmux split-window -h
+tmux send-keys "python -i ${FILENAME}" C-m

@@ -1,0 +1,48 @@
+Short-Range Transit script by Wolfram Reinke & Nils Rohde (2014, v1.1)
+
+USAGE
+
+    srt.sh [-o <origin station>] [-d <destination station>] [-t time]
+           [-s|-a] [-f] [-r] [-v]
+
+DESCRIPTION
+
+    This script makes it possible to search www.bahn.de for short-range transit
+    offers in Germany.  Users can save their favorite origin and destination
+    stations and choose between start and arrival time.
+
+OPTIONS
+
+    -o  --origin        The origin station from where your journey begins.
+                        Should be quoted if it contains spaces.
+
+    -d --destination    The destination station where your journey will end.
+                        Should be quoted if it contains spaces.
+
+    -t  --time          Either the departure or arrival time, depending on
+                        whether -s (start) or -a (arrival) has been supplied.
+                        Defaults to departure time.  If no time is supplied, the
+                        current time is used instead.  Format: hh:mm.
+
+    -s  --departure     Uses the --time argument as the departure time (which is
+                        the default anyway)
+
+    -a  --arrival       Uses the --time argument as the desired arrival time.
+
+    -f  --favorite      Saves the --origin and --destination arguments as your
+                        favorite.  Currently, only one favorite is supported.
+                        If a favorite exists and you call this script without
+                        --origin or --destination, then the missing arguments
+                        are the ones from the favorite.
+
+    -r  --reset         Deletes the favorite, so that you will have to specify
+                        --origin and --destination again.
+
+    -q  --quiet         Suppresses status notifications.  Only the time table is
+                        printed to stdout.
+
+VERSION HISTORY
+
+    v1.0    Spring 2014     Wolfram & Nils created the largest part of this
+                            script for the Linux lectures
+    v1.1    07/22/2015      Bug fixes, help file and more.

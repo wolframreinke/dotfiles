@@ -1,0 +1,36 @@
+GDB config managing script by Wolfram Reinke (2014, v1.1)
+
+DESCRIPTION
+
+    gdbmode [OPTIONS] [NAME] [FILES...]
+
+    GDBMODE is a script that manages GDB (GNU Debugger) configuration files and
+    "activates" them as needed for a certain coding/debugging session.  The
+    concept is simple: A new GDB config file can be added with the -a option and
+    then later loaded with the -l option.  Loading a config means that GDB will
+    use it when starting up.
+
+OPTIONS
+
+    -h  --help      Displays this help message and exits the script.
+
+    -l  --load      Loads the specified gdbmode, that is, the .gdbinit file
+                    associated with this mode is copied to the user's home
+                    directory (thereby overriding the existing .gdbinit file).
+                    Consequently, GDB will use this file as its initialisation
+                    file.
+
+        --list      Lists all existing GDB modes.
+
+    -a  --add       Adds a GDB configuration file as a new mode and associates
+                    it with the specified name.
+
+                    > gdbmode assembly_x86_32bit .gdbinit
+
+    -r  --reset     Resets the default settings (removes the .gdbinit file from
+                    the home directory, leaving you with a vanilla GDB).
+
+VERSION HISTORY
+
+    v1.0        Created major portion of this script
+    v1.1        Added this help message and refactored

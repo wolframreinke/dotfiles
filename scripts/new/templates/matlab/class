@@ -1,0 +1,8 @@
+% %(class|Name of the class)  add descriptive oneliner here
+%
+% $(echo $class)  add a more elaborate description here
+%&(FILENAME=$(echo $class).m)
+classdef $(echo $class)
+
+    «body»
+end

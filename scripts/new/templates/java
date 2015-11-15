@@ -1,0 +1,10 @@
+
+/**
+ * Add a description here
+ *
+ * @author %(author)
+ * @version 1.0
+ */
+public class %(class) $([ "%(extends|extends [optional])" ] && echo extends $extends) {
+
+}&(FILENAME=$(echo $class).java)

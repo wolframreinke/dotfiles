@@ -1,0 +1,6 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =4
+let g:netrw_dirhist_1='/home/tungsten/scripts/ftemplates/store'
+let g:netrw_dirhist_2='/home/tungsten/scripts/bashrc'
+let g:netrw_dirhist_3='/home/tungsten/.vim'
+let g:netrw_dirhist_4='/home/tungsten/data/downloads/order-maintenance-0.0.1.0/src/library/Control/Monad/Trans/Order/Algorithm'

@@ -1,0 +1,7 @@
+#! /usr/bin/env bash
+
+tmux send-keys "cd ${HOME}/t2000/doc" C-m
+
+tmux send-keys "vim t2000.tex" C-m
+tmux send-keys ":NERDTree" C-m
+tmux send-keys C-w w
