@@ -1,0 +1,13 @@
+set colored-stats                on
+set bell-style                   none
+set completion-ignore-case       off
+set completion-map-case          on
+set horizontal-scroll-mode       on
+set mark-symlinked-directories   on
+set menu-complete-display-prefix on
+
+"\C-x\"": "\"\"\C-b"
+"\C-x'": "''\C-b"
+"\C-x.": "\C-k\C-ucd ..\nc\n"
+"\C-xh": "\C-k\C-ucd\nc\n"
+"\C-xc": "\C-k\C-uclone\n"
