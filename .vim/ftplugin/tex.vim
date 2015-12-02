@@ -1,9 +1,6 @@
 setlocal tw=80
 
-setlocal tabstop=2
-setlocal softtabstop=2
-setlocal shiftwidth=2
-setlocal expandtab
+call SetTabstop(2)
 
 inoremap <buffer> <leader>"     ``'' «rest»<C-o>T`
 inoremap <buffer> <leader>sec   \section{}<C-o>T{

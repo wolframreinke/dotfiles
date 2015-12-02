@@ -48,16 +48,12 @@ endfunction
 nnoremap <buffer> <F7> :!python %<CR>
 nnoremap <buffer> <F9> :!python -i %<CR>
 
-" Commenting out stuff
-nnoremap <buffer> <leader>c     mtI# <ESC>`t
-vnoremap <buffer> <leader>c     <C-V>OI# <ESC>
-
 " Autocompletion!!!
 inoremap <buffer> <leader>cl    class <C-o>mt:<CR>«body\|pass»<Esc>`ta
-inoremap <buffer> <leader>fn    def <C-o>mt( «params» ):<CR>«body\|pass»<Esc>`ta
-inoremap <buffer> <leader>me    def <C-o>mt( self «params» ):<CR>«body\|pass»
+inoremap <buffer> <leader>fn    def <C-o>mt(«params»):<CR>«body\|pass»<Esc>`ta
+inoremap <buffer> <leader>me    def <C-o>mt(self«params»):<CR>«body\|pass»
                                \<Esc>`ta
-inoremap <buffer> <leader>co    def __init__( self<C-o>mt ):<CR>«body\|pass»
+inoremap <buffer> <leader>co    def __init__(self<C-o>mt):<CR>«body\|pass»
                                \<Esc>`ta
 inoremap <buffer> <leader>if    if <C-o>mt:<CR>«then\|pass»<Esc>`ta
 inoremap <buffer> <leader>ie    if <C-o>mt:<CR>«then\|pass»<CR>else:<CR>
@@ -74,3 +70,4 @@ vnoremap <buffer> <leader>fo    >:'<<CR>Ofor <C-D><C-o>mt in «range»:<ESC>`tel
 vnoremap <buffer> <leader>wh    >:'<<CR>Owhile :<Left>
 vnoremap <buffer> <leader>tr    >:'><CR>oexcept <C-o>mt:<C-D><CR>«on-fail\|pass»
                                \<ESC>:'<<CR>Otry:<ESC>`ti
+vnoremap <buffer> <leader>fn    >:'<<CR>Odef (<C-o>mt«params»):<ESC>`ti
