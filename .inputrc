@@ -10,4 +10,10 @@ set menu-complete-display-prefix on
 "\C-x'": "''\C-b"
 "\C-x.": "\C-k\C-ucd ..\nc\n"
 "\C-xh": "\C-k\C-ucd\nc\n"
-"\C-xc": "\C-k\C-uclone\n"
+
+# git-specific stuff
+"\C-gg": "\C-k\C-uclone\n"
+"\C-gs": "\C-k\C-ugit status\n"
+"\C-gl": "\C-k\C-ugit log\n"
+"\C-ga": "\C-k\C-ugit add "
+"\C-gc": "\C-k\C-ugit commit\n"
