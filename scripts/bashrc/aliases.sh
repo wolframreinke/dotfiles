@@ -93,3 +93,5 @@ alias tree='tree -CFAla'
 alias github='githubclone'
 
 alias session='snip with sessions'
+
+alias emacs='emacs -nw'

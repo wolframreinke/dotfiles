@@ -17,3 +17,4 @@ set menu-complete-display-prefix on
 "\C-gl": "\C-k\C-ugit log\n"
 "\C-ga": "\C-k\C-ugit add "
 "\C-gc": "\C-k\C-ugit commit\n"
+"\C-gp": "\C-k\C-ugit push\n"
