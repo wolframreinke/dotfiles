@@ -1,8 +1,0 @@
-#! /usr/bin/env bash
-
-if [ "${1}" ]; then
-    snip odroid/get ${1}
-    gnome-open ${1}
-else
-    echo "Filename required!"
-fi
