@@ -1,6 +1,0 @@
-if [ "$1" ]; then
-    ODROID_WS=/home/odroid/dev/wol
-    sshpass -p odroid scp -r odroid@192.168.0.190:${ODROID_WS}/${1} .
-else
-    echo "Filename required"
-fi
