@@ -12,9 +12,9 @@ DEBUG="false"
 
 function _debug
 {
-    if [ $DEBUG == "true" ]
+    if [ ${DEBUG} == "true" ]
     then
-        echo -e "[DEBUG]\t$1"
+        echo -e "[DEBUG]\t${1}"
     fi
 
     return 0
@@ -22,15 +22,16 @@ function _debug
 
 function _display_help
 {
-    cat $HOME/scripts/bookmarks/bm.help
+    cat ${HOME}/scripts/bookmarks/bm.help
     return 0
 }
 
 function _bm_main
 {
-    local BOOKMARK_STORE="$HOME/scripts/bookmarks/permanent"
-    local BOOKMARK_STORE_TMP="$HOME/scripts/bookmarks/temporary"
-    local BOOKMARK_SCRIPT="$HOME/scripts/bookmarks/bm.sh"
+    local BOOKMARK_STORE="${HOME}/scripts/bookmarks"
+    local BOOKMARK_STORE_PER="${BOOKMARK_STORE}/permanent"
+    local BOOKMARK_STORE_TMP="${HOME}/scripts/bookmarks/temporary"
+    local BOOKMARK_SCRIPT="${HOME}/scripts/bookmarks/bm.sh"
 
     # --------------------------------
     # Parse the command line arguments
@@ -45,10 +46,10 @@ function _bm_main
     # iterate over all given arguments
     while [ $# -gt 0 ]
     do
-        CURRENT_OPT=$1
+        CURRENT_OPT=${1}
         shift
 
-        case $CURRENT_OPT in
+        case ${CURRENT_OPT} in
 
         # Display the help message
         -h|--help)
@@ -71,29 +72,23 @@ function _bm_main
         # display all available bookmarks in aplhabetical order
         -l|--list)
 
-            echo "";
-            for DIRECTORY in permanent temporary
-            do
-                _debug "$DIRECTORY"
+            for DIRECTORY in permanent temporary; do
 
-                echo "$DIRECTORY" | tr '[:lower:]' '[:upper:]'
+                _debug "${DIRECTORY}"
+
+                echo -e "\n${DIRECTORY}" | tr '[:lower:]' '[:upper:]'
                 printf "%80s\n" | tr ' ' -
-                for FILENAME in $HOME/scripts/bookmarks/$DIRECTORY/*.bm
-                do
+                for FILENAME in ${BOOKMARK_STORE}/${DIRECTORY}/*.bm; do
 
-                    if [ "$FILENAME" != "$HOME/scripts/bookmarks/$DIRECTORY/*.bm" ]
-                    then
+                    if [ "${FILENAME}" != "${BOOKMARK_STORE}/${DIRECTORY}/*.bm" ]; then
 
-                        _debug "$FILENAME"
+                        _debug "${FILENAME}"
 
-                        local LEFT=$(echo $FILENAME | grep -Poi '(?<=\/)((?!\/).)*?(?=\.bm)')
-                        local RIGHT=$(cat $FILENAME)
-                        printf "%-20s - %s\n" $LEFT $RIGHT
-
+                        local LEFT=$(echo ${FILENAME} | grep -Poi '(?<=\/)((?!\/).)*?(?=\.bm)')
+                        local RIGHT=$(cat ${FILENAME})
+                        printf "%-20s - %s\n" ${LEFT} ${RIGHT}
                     else
-
                         echo "(none)"
-
                     fi
                 done
                 echo ""
@@ -116,65 +111,55 @@ function _bm_main
             ;;
 
         -ct|--cleartmp)
-            rm $BOOKMARK_STORE_TMP/*.bm > /dev/null 2>&1;
+            rm ${BOOKMARK_STORE_TMP}/*.bm > /dev/null 2>&1;
             return 0
             ;;
 
         # unknown options start with a -, but the rest is unrecognized
-        -*)
-            echo "Unknown option $CURRENT_OPT"
+       -*)
+            echo "Unknown option ${CURRENT_OPT}"
             return 1
             ;;
 
         # the argument to the chosen operation
         *)
-                        ARGUMENT=$(echo $CURRENT_OPT | sed 's_^\([^/]*\).*_\1_g')
-                        ARGUMENT=${CURRENT_OPT%%/*}
-                        ARG_PATH=${CURRENT_OPT#*/}
+            ARGUMENT=$(echo ${CURRENT_OPT} | sed 's_^\([^/]*\).*_\1_g')
+            ARGUMENT=${CURRENT_OPT%%/*}
+            ARG_PATH=${CURRENT_OPT#*/}
 
-                        if [ "$ARGUMENT" == "$ARG_PATH" ]
-                        then
-                                ARG_PATH="."
-                        fi
+            if [ "${ARGUMENT}" == "$ARG_PATH" ]; then
+                    ARG_PATH="."
+            fi
             ;;
 
         esac
     done
 
-    # the user has not chose either --list --save or --goto.  if the specified
+    # the user has not chosen either --list --save or --goto.  if the specified
     # bookmark exists, the corresponding directory is opened, if not, a new
     # bookmark with the specified name is created at the current position
-    if [ $MODE == "default" ]
-    then
+    if [ ${MODE} == "default" ]; then
 
-        if [ $ARGUMENT == "undefined" ]
-        then
-
+        if [ ${ARGUMENT} == "undefined" ]; then
             echo -n "Name of the bookmark: "
             read ARGUMENT
-
         fi
 
-        if [ -e $BOOKMARK_STORE/$ARGUMENT".bm" -o -e $BOOKMARK_STORE_TMP/$ARGUMENT".bm" ]
-        then
-
+        if [   -e ${BOOKMARK_STORE_PER}/${ARGUMENT}".bm" \
+            -o -e ${BOOKMARK_STORE_TMP}/${ARGUMENT}".bm" ]; then
             _bm_main --goto $ARGUMENT/$ARG_PATH
-
         else
 
-            if [ $TEMPORARY == "false" ]
-            then
-                _bm_main --set $ARGUMENT
+            if [ ${TEMPORARY} == "false" ]; then
+                _bm_main --set ${ARGUMENT}
             else
-                _bm_main --tmp --set $ARGUMENT
+                _bm_main --tmp --set ${ARGUMENT}
             fi
         fi
 
-    elif [ $MODE == "save" ]
-    then
+    elif [ ${MODE} == "save" ]; then
 
-        if [ $ARGUMENT == "undefined" ]
-        then
+        if [ ${ARGUMENT} == "undefined" ]; then
 
             echo -n "Name for the new bookmark: "
             read ARGUMENT
@@ -183,84 +168,67 @@ function _bm_main
             echo -n "Are you sure, you want to create a new bookmark? (Y/N): "
             read RESPONSE
 
-            if [ "$RESPONSE" != "Y" ]
-            then
+            if [ "${RESPONSE}" != "Y" ]; then
                 echo Aborting.
                 return
             fi
         fi
 
-        if [ $TEMPORARY == "false" ]
-        then
-            echo $PWD > $BOOKMARK_STORE/$ARGUMENT".bm"
+        if [ ${TEMPORARY} == "false" ]; then
+            echo ${PWD} > ${BOOKMARK_STORE_PER}/${ARGUMENT}".bm"
         else
-            echo $PWD > $BOOKMARK_STORE_TMP/$ARGUMENT".bm"
+            echo ${PWD} > ${BOOKMARK_STORE_TMP}/${ARGUMENT}".bm"
         fi
 
-    elif [ $MODE == "rm" ]
-    then
+    elif [ ${MODE} == "rm" ]; then
 
-        if [ $ARGUMENT == "undefined" ]
-        then
+        if [ ${ARGUMENT} == "undefined" ]; then
             echo -n "Name of the bookmark to delete: "
             read ARGUMENT
         fi
 
 
-        rm $BOOKMARK_STORE/$ARGUMENT".bm" > /dev/null 2>&1
-        rm $BOOKMARK_STORE_TMP/$ARGUMENT".bm" > /dev/null 2>&1
+        rm ${BOOKMARK_STORE_PER}/${ARGUMENT}".bm" > /dev/null 2>&1
+        rm ${BOOKMARK_STORE_TMP}/${ARGUMENT}".bm" > /dev/null 2>&1
 
         return 0
-        elif [ $MODE == "print" ]
-        then
-                if [ $ARGUMENT == "undefined" ]
-                then
+        elif [ ${MODE} == "print" ]; then
+
+                if [ ${ARGUMENT} == "undefined" ]; then
                         echo -n "Name of the bookmark to primt: "
                         read ARGUMENT
                 fi
 
-                TARGET=$(cat $BOOKMARK_STORE/$ARGUMENT".bm" 2> /dev/null)
-                if [ -z $TARGET ]
-                then
-                        TARGET=$(cat $BOOKMARK_STORE_TMP/$ARGUMENT".bm" 2> /dev/null)
+                TARGET=$(cat ${BOOKMARK_STORE_PER}/${ARGUMENT}".bm" 2> /dev/null)
+                if [ -z ${TARGET} ]; then
+                        TARGET=$(cat ${BOOKMARK_STORE_TMP}/${ARGUMENT}".bm" 2> /dev/null)
                 fi
 
-                echo $TARGET
+                echo ${TARGET}
     else
-
-        if [ $ARGUMENT == "undefined" ]
-        then
-
+        if [ ${ARGUMENT} == "undefined" ]; then
             echo -n "Name of the desired bookmark: "
             read ARGUMENT
-
         fi
 
-        _debug "ARGUMENT = $ARGUMENT"
+        _debug "ARGUMENT = ${ARGUMENT}"
 
-        TARGET=$(cat $BOOKMARK_STORE/$ARGUMENT".bm" 2> /dev/null)
+        TARGET=$(cat ${BOOKMARK_STORE_PER}/${ARGUMENT}".bm" 2> /dev/null)
 
         _debug "TARGET = $TARGET"
 
-        if [ -z $TARGET ]
-        then
-            TARGET=$(cat $BOOKMARK_STORE_TMP/$ARGUMENT".bm" 2> /dev/null)
+        if [ -z ${TARGET} ]; then
+            TARGET=$(cat ${BOOKMARK_STORE_TMP}/${ARGUMENT}".bm" 2> /dev/null)
         fi
 
-        _debug "TARGET = $TARGET"
+        _debug "TARGET = ${TARGET}"
 
-        if [ $TARGET ]
-        then
-
-            cd $TARGET/$ARG_PATH
-
+        if [ ${TARGET} ]; then
+            cd ${TARGET}/${ARG_PATH}
         else
-
             echo "No such bookmark."
             return 1
-
         fi
-
     fi
 }
 
