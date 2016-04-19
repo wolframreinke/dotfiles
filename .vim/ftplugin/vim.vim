@@ -4,17 +4,17 @@ setlocal tabstop=4
 setlocal softtabstop=4
 setlocal shiftwidth=4
 
-ia sl setlocal
-ia tw textwidth
-ia ts tabstop
-ia sts softtabstop
-ia sw shiftwidth
-ia fo formatoptions
-ia im inoremap
-ia nm nnoremap
-ia vm vnoremap
-ia bu <buffer>
-ia le <leader<Space><BackSpace>>
+ia <buffer> sl setlocal
+ia <buffer> tw textwidth
+ia <buffer> ts tabstop
+ia <buffer> sts softtabstop
+ia <buffer> sw shiftwidth
+ia <buffer> fo formatoptions
+ia <buffer> im inoremap
+ia <buffer> nm nnoremap
+ia <buffer> vm vnoremap
+ia <buffer> bu <buffer>
+ia <buffer> le <leader<Space><BackSpace>>
 
 nnoremap <buffer> <leader>s     :source ~/.vimrc<CR>
 

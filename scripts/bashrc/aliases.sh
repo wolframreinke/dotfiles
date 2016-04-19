@@ -47,14 +47,6 @@ function _clear_and_l {
     unsource_colors
 }
 
-function githubclone {
-    path=${1}
-    if [ "${2}" ]; then
-        path=${path}/${2}
-    fi
-    git clone https://github.com/${path}
-}
-
 # Custom Aliases
 alias c='_clear_and_l'
 alias cls=clear
@@ -87,11 +79,7 @@ alias open='_open'                   # opens with a suitable GUI program
 alias fuck='sudo $(history -p \!\!)' # reruns the previous command with sudo
 
 alias ghci='${HOME}/scripts/ghci_colored.sh /usr/bin/ghci'
-alias redshift='$(cat $HOME/data/notes/redshift) > /dev/null 2>&1 &'
+alias redshift='ps -e | grep redshift >/dev/null 2>&1 || $(cat $HOME/data/notes/redshift) > /dev/null 2>&1 &'
 alias tree='tree -CFAla'
 # alias which='slwhich'
-alias github='githubclone'
-
 alias session='snip with sessions'
-
-alias emacs='emacs -nw'

@@ -1,0 +1,14 @@
+% =============================================================================
+%                          ACRONYMS AND ABBREVIATIONS
+% =============================================================================
+\newcommand{\genacronym}[3]{\newglossaryentry{#1}
+  { type=\acronymtype
+  , name={#2}
+  , sort={#1}
+  , description={#3}
+  , first={#3 (#2)\glsadd{#1g}}
+  , see=[Glossar:]{#1g}
+  }
+}&(FILENAME=src/abbreviations.tex)
+
+\genacronym{kuerzel}{Kurfurm}{Ausgeschriebene Form}

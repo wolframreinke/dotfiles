@@ -6,7 +6,7 @@ setlocal softtabstop=4
 setlocal expandtab
 
 
-setlocal formatoptions+=croql
+setlocal formatoptions=tcroqalnMj
 
 " Scoped rename
 nnoremap <buffer> <leader>rR    *NviBVokk:s///g<Left><Left>
@@ -23,7 +23,7 @@ inoremap <buffer> <leader>sd    typedef struct {<CR>«decls»<CR>} ;<Left>
 inoremap <buffer> <leader>ud    typedef union {<CR>«decls»<CR>} ;<Left>
 inoremap <buffer> <leader>ed    typedef enum {<CR>«decls»<CR>} ;<Left>
 inoremap <buffer> <leader>td    typedef «original_type» ;<Left>
-inoremap <buffer> <leader>ma    int main(int argc, char *argc[])<CR>{<CR><
+inoremap <buffer> <leader>ma    int main(int argc, char *argv[])<CR>{<CR><
                                \C-o>mt<CR>}<C-o>'t
 inoremap <buffer> <leader>if    if ()<C-o>mt {<CR><CR>«body»<CR>}<C-o>`t
 inoremap <buffer> <leader>ie    if ()<C-o>mt {<CR><CR>«when-true»<CR>} else {

@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+#
+# Creates a symlink in ~/bin pointing to the file you pass in as a parameter.
+# If the file has the extension "sh", then this extension is removed.  For
+# example, "binlink.sh" becomes "binlink".
 
 if [ -e "${1}" ]; then
 

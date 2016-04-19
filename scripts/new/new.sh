@@ -36,14 +36,29 @@ function replace
 {
     local FILE="$1"
 
-    local FROM=$(echo "$2" | sed 's_[]/$*.^[]_\\&_g')
-    local TO=$(echo "$3" | sed 's_[]/$*.^[]_\\&_g')
+    local FROM=$(echo "$2" | sed 's_[]/&$*.^[]_\\&_g')
+    local TO=$(echo "$3" | sed 's_[]/&$*.^[]_\\&_g')
 
     debug "replace: in   $FILE"
     debug "replace: from $FROM"
     debug "replace: to   $TO"
 
     sed "0,/$FROM/{s/$FROM/$TO/g}" "$FILE" > replace_tmp.txt
+    mv replace_tmp.txt "$FILE"
+}
+
+function replace_all
+{
+    local FILE="$1"
+
+    local FROM=$(echo "$2" | sed 's_[]/&$*.^[]_\\&_g')
+    local TO=$(echo "$3" | sed 's_[]/&$*.^[]_\\&_g')
+
+    debug "replace_all: in   $FILE"
+    debug "replace_all: from $FROM"
+    debug "replace_all: to   $TO"
+
+    sed "s/$FROM/$TO/g" "$FILE" > replace_tmp.txt
     mv replace_tmp.txt "$FILE"
 }
 
@@ -109,8 +124,10 @@ function process
     OIFS="$IFS"
     IFS=$'\n'
 
-    for LINE in $(grep -Pi '(?<=%\().+?(?=\))' "$TEMPLATE"); do
-        for VAR in $(echo $LINE | grep -Pio '(?<=%\().+?(?=\))'); do
+    for LINE in $(grep -Pi '(?<!%)%\(.+?(?=\))' "$TEMPLATE"); do
+        for VAR in $(echo $LINE | grep -Pio '(?<!%)%\(.+?(?=\))'); do
+
+            VAR=$(echo "$VAR" | cut -c3-)
 
             # Splits the variable into two parts, the name of the
             # variable and its default value for this occurrence.
@@ -143,20 +160,13 @@ function process
             fi
 
             if [ "$DEFAULT" ]; then
-                if [ "$QUIET" == false ]; then
-                    echo -n "$TEXT (default: $DEFAULT) > "
-                fi
-
-                read -r RESULT
+                RESULT="$DEFAULT"
             else
                 if [ "$QUIET" == false ]; then
                     echo -n "$TEXT > "
                 fi
 
                 read -r RESULT
-            fi
-            if [ "$QUIET" == false ]; then
-                echo
             fi
 
             if [ -z "$RESULT" ]; then
@@ -178,14 +188,16 @@ function process
         done
     done
 
-    for CMD in $(grep -Pio '\$\(.+?\)' "$TEMPLATE"); do
+    for CMD in $(grep -Pio '(?<!\$)\$\(.+?\)' "$TEMPLATE"); do
         debug "cmd:  $CMD"
         eval "RESULT=\"$CMD\""
 
         replace "$TEMPLATE" "$CMD" "$RESULT"
     done
 
-    for SETTING in $(grep -Pio '(?<=&\().+?=.+?(?=\))' "$TEMPLATE"); do
+    for SETTING in $(grep -Pio '(?<!&)&\(.+?=.+?(?=\))' "$TEMPLATE"); do
+        SETTING=$(echo "$SETTING" | cut -c3-)
+
         debug "set:  $SETTING"
         eval "$SETTING"
 
@@ -193,6 +205,9 @@ function process
         replace "$TEMPLATE" "&($SETTING)" ""
     done
 
+    replace_all "$TEMPLATE" '%%' '%'
+    replace_all "$TEMPLATE" '$$' '$'
+    replace_all "$TEMPLATE" '&&' '&'
 
     IFS="$OIFS"
 }

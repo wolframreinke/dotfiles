@@ -86,3 +86,5 @@ bind h if-shell "$is_vim" "send-keys C-q h" "select-pane -L"
 bind j if-shell "$is_vim" "send-keys C-q j" "select-pane -D"
 bind k if-shell "$is_vim" "send-keys C-q k" "select-pane -U"
 bind l if-shell "$is_vim" "send-keys C-q l" "select-pane -R"
+
+set-option -g allow-rename off

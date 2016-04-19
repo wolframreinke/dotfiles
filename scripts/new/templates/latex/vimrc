@@ -1,0 +1,37 @@
+" Add your custom abbreviations here&(FILENAME=.vimrc)
+
+inoremap ä \"a
+inoremap ö \"o
+inoremap ü \"u
+inoremap Ä \"A
+inoremap Ö \"O
+inoremap Ü \"U
+inoremap ß {\ss}
+
+
+nnoremap <leader>gt    :b %(name).tex<Cr>
+nnoremap <F6>          :call F%(name)Show()<CR>
+nnoremap <F7>          :call F%(name)Make()<CR>
+
+
+" Splits up the workspace into three windows, one containing the desired file,
+" one the file notes/todo and one the project-specific .vimrc (this file).  This
+" is only triggered if the file has the name %(name).*
+if !exists('g:%(name)_session_vimrc')
+    let g:%(name)_session_vimrc = 1
+    if expand('%:p:t:r') == '%(name)'
+        silent! vsplit .vimrc
+        silent! wincmd x
+        silent! wincmd l
+        silent! split notes/todo
+        silent! wincmd h
+    endif
+endif
+
+function! F%(name)Make()
+    call feedkeys(':SlimeSend1 make ', 'n')
+endfunction
+
+function! F%(name)Show()
+    call feedkeys(':SlimeSend1 gnome-open %(name).pdf ', 'n')
+endfunction

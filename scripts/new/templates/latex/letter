@@ -1,0 +1,16 @@
+\documentclass[testlco]{scrlttr2}&(FILENAME=%(name).tex)
+
+\usepackage[utf-8]{inputenc}
+
+\begin{document}
+
+  \begin{letter}{Da\\hin\\soll\\er}
+
+    \opening{Sehr geehrter Herr Comak,}
+
+    \closing{Freundliche Grüße}
+
+
+  \end{letter}
+
+\end{document}

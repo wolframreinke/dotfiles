@@ -1,18 +1,19 @@
-Filetemplate management script by Wolfram Reinke (2015, v1.1)
+NAME
+    Filetemplate management script by Wolfram Reinke (2015, v1.1)
 
-DESCRIPTION
-
-    This script makes it possible to instantiate file templates, that is, to
-    create new files from templates.  File templates have a name and can be
-    grouped to categories, subcategories, and so forth.
-
-USAGE
+SYNOPSIS
 
     new [OPTIONS] [[[...] CATEGORY] SUBCATEGORY] NAME
 
     If no OPTIONS are provided, then the template with the name NAME is
     instantiated.  This process will require the user to enter some data about
     the new file, e.g. the filename and author.
+
+DESCRIPTION
+
+    This script makes it possible to instantiate file templates, that is, to
+    create new files from templates.  File templates have a name and can be
+    grouped to categories, subcategories, and so forth.
 
 OPTIONS
 

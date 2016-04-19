@@ -1,0 +1,11 @@
+@article{kuerzel,&(FILENAME=%(name).bib)
+    title        = {titel},
+    author       = {Nachname, Vorname and
+                    Nachname, Vorname and},
+    journal      = {Image and Vision Computing},
+    volume       = {22},
+    number       = {10},
+    pages        = {761--767},
+    year         = {2004},
+    publisher    = {Elsevier}
+}

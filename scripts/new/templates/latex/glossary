@@ -1,0 +1,8 @@
+% =============================================================================
+%                               GLOSSARY ENTRIES
+% =============================================================================
+\newglossaryentry{kuerzelg}
+  { name={Name}
+  , text={Wie es im Text erscheint}
+  , description={Umfangreiche Beschreibung}
+  }&(FILENAME=src/glossary.tex)

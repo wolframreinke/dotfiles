@@ -1,0 +1,65 @@
+% ================================= PREAMBLE ==================================
+
+\usepackage[main=ngerman,english]{babel}&(FILENAME=src/preamble.tex)
+\usepackage[font={small},format=hang]{caption}
+\usepackage{graphicx}                    % Images!
+\usepackage{hyperref}                    % clickable references and links
+\usepackage{lipsum}                      % insert lorem-ipsum anywhere
+\usepackage{subcaption}
+\usepackage{xargs}
+\usepackage{xfrac}                       % More kinds of fractions
+\usepackage{xspace}
+\usepackage{relsize}
+\usepackage[acronym, nonumberlist, nopostdot, style=altlist, nogroupskip]{glossaries}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{courier}
+
+\input{src/lstsettings.tex}
+
+\renewcommand\refname{Literaturverzeichnis}
+\addto\captionsngerman{\renewcommand{\refname}{Literaturverzeichnis}}
+
+\graphicspath{{img/}}
+
+\renewcommand{\thesubfigure}{(\alph{subfigure})}
+
+\captionsetup[subfigure]%
+  { subrefformat = simple
+  , labelformat  = simple
+  }
+
+\hypersetup%
+  { colorlinks
+  , linkcolor={black}
+  , citecolor={black}
+  , urlcolor={black}
+  }
+
+\renewcommand{\vec}{\mathbf}
+\def\<#1>{\textscale{.9}{#1}}
+\newcommand{\CPP}{{C\nolinebreak[4]\hspace{-.05em}\raisebox{.4ex}{\tiny\bf ++}}}
+\newcommand{\Matlab}{{\textsc{Matlab}}}
+% ...
+\newcommand{\MaTE}{\<M>a\<TE>}
+\newcommand{\PyTSL}{\<P>y\<TSL>}
+
+\let\stdsection\section
+\renewcommand\section{\newpage\stdsection}
+
+\newenvironment{abstractpage}
+  {\cleardoublepage\vspace*{\fill}\thispagestyle{empty}}
+  {\vfill\cleardoublepage}
+\renewenvironment{abstract}[1]
+  {\bigskip\selectlanguage{#1}\begin{center}\bfseries\abstractname\end{center}}
+  {\par\bigskip}
+
+\makeglossaries
+\setlength\LTleft{0pt}
+\setlength\LTright{0pt}
+\setlength\glsdescwidth{0.5\hsize}
+\renewcommand{\glsnamefont}[1]{\textbf{#1}}
+
+\input{src/glossary.tex}
+\input{src/abbreviations.tex}

@@ -7,6 +7,8 @@ source $HOME/scripts/bashrc/completions.sh
 source $HOME/scripts/bashrc/variables.sh
 source $HOME/scripts/bashrc/aliases.sh
 source $HOME/scripts/bashrc/miscellaneous.sh
+source $HOME/scripts/bashrc/binds.sh
+source $HOME/scripts/bashrc/traps.sh
 
 # Bookmarking script needs ability to change the directory. Therefore it was
 # converted to a shell function, which is called via an alias.

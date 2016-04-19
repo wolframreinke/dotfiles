@@ -1,0 +1,77 @@
+\documentclass[11pt,notitlepage,a4paper]{scrartcl}&(FILENAME=%(name).tex)$(mkdir notes img lst src out)$(echo "%(name)" | new -q latex makefile)$(echo "%(name)" | new -q latex bibfile)$(echo "%(name)" | new -q latex preamble)$(new -q latex glossary)$(new -q latex abbreviations)$(new -q latex lstsettings)$(touch notes/todo)$(echo "%(name)" | new -q latex vimrc)
+
+\input{src/preamble.tex}
+
+\begin{document}
+
+  \pagenumbering{roman}
+
+  % ---------------------------------------------------------------------------
+  %                                 ABSTRACT
+  % ---------------------------------------------------------------------------
+
+  \clearpage
+  \vspace*{\fill}
+  \begin{abstract}{ngerman}
+
+    \lipsum[1]
+
+  \end{abstract}
+  \vspace*{\fill}
+
+  \clearpage
+  \vspace*{\fill}
+  \begin{abstract}{english}
+
+    \lipsum[1]
+
+  \end{abstract}
+  \vspace*{\fill}
+
+  % ---------------------------------------------------------------------------
+  %              TABLE OF CONTENTS, ABBREVIATIONS, AND FIGURES
+  % ---------------------------------------------------------------------------
+
+  \setcounter{tocdepth}{2}
+  \tableofcontents
+  %\thispagestyle{empty}
+
+  \cleardoublepage
+  \phantomsection
+  \addcontentsline{toc}{section}{\listfigurename}
+  \listoffigures
+  %\thispagestyle{empty}
+
+  \cleardoublepage
+  \phantomsection
+  \addcontentsline{toc}{section}{Abk\"urzungsverzeichnis}
+  \printglossary[type=\acronymtype, title={Abk\"urzungsverzeichnis},
+                 style=long]
+  %\thispagestyle{empty}
+
+
+  % ---------------------------------------------------------------------------
+  %                                   TEXT BODY
+  % ---------------------------------------------------------------------------
+
+  \clearpage
+  \pagenumbering{arabic}
+  \setcounter{page}{1}
+  % \input{src/part_*.tex}
+  This is the main section \cite{kuerzel}, \CPP{}, \gls{kuerzel}.
+
+  % ---------------------------------------------------------------------------
+  %                                   BIBLIOGRAPHY
+  % ---------------------------------------------------------------------------
+
+  \cleardoublepage
+  \addcontentsline{toc}{section}{\bibname}
+  \bibliographystyle{plain}
+  \bibliography{t4000}
+
+  \cleardoublepage
+  \phantomsection
+  \addcontentsline{toc}{section}{Glossar}
+  \printglossary[type=main, title=Glossar]
+
+\end{document}

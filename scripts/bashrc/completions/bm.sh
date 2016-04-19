@@ -135,10 +135,13 @@ function _complete_bm
     else
         # No path was specified behind the bookmark's name, therefore only
         # bookmark names are completed, not files at the bookmarked path
-        BMS=$({ ls ${BMPATH}/permanent | grep -Po '.*?(?=\.bm)'; \
-                ls ${BMPATH}/temporary | grep -Po '.*?(?=\.bm)'; })
-        COMPREPLY=( $(compgen -W "${BMS}" -- ${CURRENT}) )
+        BMS=$({ ls ${BMPATH}/permanent | grep -Po '.*?(?=\.bm)';   \
+                ls ${BMPATH}/temporary | grep -Po '.*?(?=\.bm)'; } \
+              | sed -e 's/$/\//')
+        BMS_ALT=$(echo "$BMS" | sed -e 's/$/.../')
+        COMPREPLY=( $(compgen -W "${BMS} ${BMS_ALT}" -- ${CURRENT}) )
         debug "bms = $BMS"
+        debug "bms_alt = $BMS_ALT"
         debug "compreply = $COMPREPLY"
     fi
 }

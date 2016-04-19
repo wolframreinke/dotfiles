@@ -43,7 +43,7 @@ function alert {
     if [ ! -z "${1}" ]; then
         summary="${1}"
     else
-        summry="(untitled)"
+        summary="(untitled)"
     fi
 
     notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "${summary}"

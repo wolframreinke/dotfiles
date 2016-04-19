@@ -1,0 +1,36 @@
+\definecolor{deepblue}{rgb}{0,0,0.5}&(FILENAME=src/lstsettings.tex)
+\definecolor{deepgreen}{rgb}{0,0.4,0}
+
+\lstdefinelanguage{atl}
+  { morekeywords =
+    { function , begin  , end   , for    , to     , step    , endfor , integer
+    , integer  , double , float , string , signal , message , if     , endif
+    }
+  , sensitive   = true
+  , morecomment = [l]{//}
+  , morecomment = [s]{/*}{*/}
+  , morestring  = [b]"
+  , morestring  = [b]'
+  }
+
+\newcommand\atlstyle{\lstset
+  { language           = atl
+  , basicstyle         = \ttfamily\small
+  , keywordstyle       = \ttfamily\small\bfseries\color{deepblue}
+  , stringstyle        = \ttfamily\small\color{deepgreen}
+  , commentstyle       = \ttfamily\small\color{gray}
+  , emph               = {Console,Signal}
+  , emphstyle          = \ttfamily\small\textsl
+  , escapechar         = `
+  , frame              = tb
+  , rulecolor          = \color{lightgray}
+  , numbers            = none
+  , captionpos         = b
+  , aboveskip          = 1.0cm
+  , belowskip          = 0.6cm
+  , showstringspaces   = false
+  }
+}
+
+\newcommand\atlexternal[2][]{{ \atlstyle \lstinputlisting[#1]{#2}}}
+\newcommand\atlinline[1]{{\atlstyle\lstinline!#1!}}

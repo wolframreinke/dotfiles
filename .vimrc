@@ -80,7 +80,7 @@ if system('echo -n $TERM') != 'linux'
     autocmd InsertLeave * set nocursorline
     autocmd InsertLeave * set nocursorcolumn
 
-    set background=light
+    set background=dark
     colorscheme solarized
 
     let &colorcolumn=join(range(81,300),",")
@@ -269,6 +269,7 @@ nnoremap <silent> <C-q>l :TmuxNavigateRight<CR>
 
 " --------------------------------- RAINBOW ---------------------------------- "
 let g:rainbow_active = 0
+
 
 " ------------------------------- DELIMITMATE -------------------------------- "
 let g:delimitMate_expand_cr    = 1

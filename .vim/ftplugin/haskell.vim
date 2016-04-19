@@ -9,7 +9,7 @@ setlocal smarttab
 setlocal expandtab
 
 setlocal omnifunc=necoghc#omnifunc
-setlocal keywordprg=hoogle\ --info
+setlocal keywordprg=hooglepager
 
 augroup HaskellGroup
     autocmd!
@@ -21,13 +21,6 @@ augroup END
 " +--------------------------------------------------------------------------+ "
 " |                               KEYBINDINGS                                | "
 " +--------------------------------------------------------------------------+ "
-
-" Commenting out stuff
-nnoremap <buffer> <leader>c     mtI-- <ESC>`t
-vnoremap <buffer> <leader>c     <C-V>0I-- <ESC>
-nnoremap <buffer> <leader>cc    vip<C-V>0I-- <ESC>
-nnoremap <buffer> <leader>C     mtI{- <ESC>A -}<ESC>`t
-vnoremap <buffer> <leader>C     <ESC>a -}<ESC>gvo<ESC>i{- <ESC>
 
 
 " Hdevtools commands
@@ -50,10 +43,20 @@ inoremap <buffer> <leader>iq    <Esc>:call HaskellImportQualified()<CR>
 nnoremap <buffer> <leader>gr    :call HaskellToggleGHCIReload()<CR>
 
 " GHCi control
-nnoremap <buffer> <leader>gt    :call HaskellGHCIDo('(GHCi Type) Function: ',':t')<CR>
-nnoremap <buffer> <leader>gi    :call HaskellGHCIDo('(GHCi Info) Function: ',':info')<CR>
-nnoremap <buffer> <leader>gh    :call HaskellGHCIDo('(GHCi Hoogle) Search: ',':hoogle')<CR>
-nnoremap <buffer> <leader>gd    :call HaskellGHCIDo('(GHCi Hoogle) Doc: ',':doc')<CR>
+nnoremap <buffer> <leader>ggt   :call HaskellGHCIDo('(GHCi Type) Function: ',':t')<CR>
+nnoremap <buffer> <leader>ggi   :call HaskellGHCIDo('(GHCi Info) Function: ',':info')<CR>
+nnoremap <buffer> <leader>ggh   :call HaskellGHCIDo('(GHCi Hoogle) Search: ',':hoogle')<CR>
+nnoremap <buffer> <leader>ggd   :call HaskellGHCIDo('(GHCi Hoogle) Doc: ',':doc')<CR>
+
+nnoremap <buffer> <leader>gt    viw:call HaskellGHCIQuery(':t', 1)<CR>
+vnoremap <buffer> <leader>gt       :call HaskellGHCIQuery(':t', 1)<CR>
+nnoremap <buffer> <leader>gin   viw:call HaskellGHCIQuery(':i', 0)<CR>
+vnoremap <buffer> <leader>gin      :call HaskellGHCIQuery(':i', 0)<CR>
+nnoremap <buffer> <leader>gd    viw:call HaskellGHCIQuery(':doc', 0)<CR>
+vnoremap <buffer> <leader>gd       :call HaskellGHCIQuery(':doc', 0)<CR>
+
+nnoremap <buffer> <leader>git   viw:call HaskellGHCIInsertType()<CR>
+vnoremap <buffer> <leader>git      :call HaskellGHCIInsertType()<CR>
 
 " Cabal control
 nnoremap <buffer> <leader>gcc   :call HaskellGHCIDo('cabal ',':!cabal')<CR>
@@ -65,17 +68,50 @@ nnoremap <buffer> <leader>gch   :call HaskellGHCIExec(':!cabal haddock')<CR>
 nnoremap <buffer> <leader>re    viW:call HaskellExtractVar()<CR>
 vnoremap <buffer> <leader>re    :call HaskellExtractVar()<CR>
 
+nnoremap <buffer> gf            viW:call HaskellOpenModule()<CR>
+vnoremap <buffer> gf            :call HaskellOpenModule()<CR>
 
 
 " +--------------------------------------------------------------------------+ "
 " |                                FUNCTIONS                                 | "
 " +--------------------------------------------------------------------------+ "
+if !exists("*HaskellOpenModule")
+    function HaskellOpenModule()
+        normal gv"yy
+        let l:path = substitute(@y, '\.', '/', 'g') . '.hs'
+        if filereadable(l:path)
+            edit l:path
+        elseif filereadable('src/' . l:path)
+            let l:path = 'src/' . l:path
+            execute 'edit ' . l:path
+        else
+            echo "Could not find module " . @y
+        endif
+    endfunction
+endif
 
 " Execute a command in GHCi after asking the user for a parameter.  The first
 " argument of this function is the text that is displayed to the user.
 function! HaskellGHCIDo(text, cmd)
     let l:fun = input(a:text)
     call feedkeys(':SlimeSend1 ' . a:cmd . ' ' . l:fun . '', 'n')
+endfunction
+
+function! HaskellGHCIQuery(cmd, addparens)
+    normal gv"yy
+    if a:addparens
+        let @y = '(' . @y . ')'
+    endif
+    call feedkeys(':SlimeSend1 ' . a:cmd . ' ' . @y . '', 'n')
+endfunction
+
+function! HaskellGHCIInsertType()
+    normal gv"yy
+    if !exists('b:slime_config')
+        SlimeConfig
+    endif
+    let l:pane = b:slime_config['target_pane']
+    call feedkeys('k:r!newoutput ' . l:pane . ' ":t ' . @y . '" | head -n -1', 'n')
 endfunction
 
 " Executes a command in GHCi without asking for user input.
