@@ -272,11 +272,28 @@ function main
         exit 0
     fi
 
-    # Converts uppercase to lowercase and joins the arguments to form the
-    # required path
-    local TEMPLATE_NAME=$(join / $(map "tr [:upper:] [:lower:]" ${ARGUMENTS}))
-    local TEMPLATE_NAME="${TEMPLATE_STORE}/${TEMPLATE_NAME}"
+    local TEMPLATE_NAME=""
+    local PARAMETERS=""
+    local MODE="path"
+    for ARGUMENT in ${ARGUMENTS}; do
+        if [ "${MODE}" == "path" ]; then
+            TEMPLATE_NAME="${TEMPLATE_NAME}/${ARGUMENT}"
+            if [ -f "${TEMPLATE_STORE}/${TEMPLATE_NAME}" ]; then
+                MODE="param"
+            fi
+        else
+            # MODE == "param"
+            if [ -z "${PARAMETERS}" ]; then
+                PARAMETERS="${ARGUMENT}"
+            else
+                PARAMETERS="${PARAMETERS}\n${ARGUMENT}"
+            fi
+        fi
+    done
+
+    local TEMPLATE_NAME="${TEMPLATE_STORE}${TEMPLATE_NAME}"
     debug "Using template $TEMPLATE_NAME"
+    debug "Fixed parameters: $PARAMETERS"
 
     # If the template path is not a real template but only some directory in
     # between, then the contents of this directors are listed
@@ -288,7 +305,17 @@ function main
     NEWFILE_NAME="$(basename ${TEMPLATE_NAME})_new"
     cp "${TEMPLATE_NAME}" ./${NEWFILE_NAME}
 
-    process "${NEWFILE_NAME}"
+    if [ -n "${PARAMETERS}" ]; then
+        QUIET=true
+
+        # <() evaluates the command and pipes the result into process.  A pipe
+        # deos not work, since it implicitly creates a new subshell, which leads
+        # to the FILENAME variable not being set in this script.
+        process "${NEWFILE_NAME}"< <(echo -ne ${PARAMETERS})
+    else
+        process "${NEWFILE_NAME}"
+    fi
+    debug "filename: ${FILENAME}"
 
     # FILENAME has been set by the template, hopefully at least.
     if [ "$FILENAME" ]; then
