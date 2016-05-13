@@ -6,7 +6,11 @@ setlocal softtabstop=4
 setlocal expandtab
 
 
-setlocal formatoptions=tcroqalnMj
+setlocal formatoptions=tcroqlnMj
+
+" Switching between header and body
+nnoremap <buffer> <leader>bh    :call CGotoHeader()<CR>
+nnoremap <buffer> <leader>bb    :call CGotoBody()<CR>
 
 " Scoped rename
 nnoremap <buffer> <leader>rR    *NviBVokk:s///g<Left><Left>
@@ -69,3 +73,35 @@ function! CEmbed( before, after )
     call feedkeys( ":'>oy:'<OxhviB=", 'n' )
     call feedkeys( '/«»cf»', 'N' )
 endfunction
+
+if !exists("g:c_switch_header_and_body")
+    let g:c_switch_header_and_body = 1
+
+    function! CGotoHeader()
+        let l:module = expand('%:r')
+
+        if filereadable(l:module . '.h')
+            execute "edit " . l:module . '.h'
+        elseif filereadable(l:module . '.hpp')
+            execute "edit " . l:module . '.hpp'
+        else
+            echo "Cannot find .h or .hpp file."
+        endif
+    endfunction
+
+    function! CGotoBody()
+        let l:module = expand('%:r')
+
+        if filereadable(l:module . '.c')
+            execute "edit " . l:module . '.c'
+        elseif filereadable(l:module . '.cc')
+            execute "edit " . l:module . '.cc'
+        elseif filereadable(l:module . '.cpp')
+            execute "edit " . l:module . '.cpp'
+        else
+            echo "Cannot find .c, .cc or .cpp file."
+        endif
+    endfunction
+endif
+
+
