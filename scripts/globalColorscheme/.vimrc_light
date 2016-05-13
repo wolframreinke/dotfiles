@@ -10,7 +10,7 @@ let mapleader = ","
 set autoindent    " use automatic indentation
 set expandtab     " convert tabs to spaces
 set hidden        " switch between unsaved buffers
-set hlsearch      " highlight search results.  Temporarily disabled with :noh
+" set hlsearch      " highlight search results.  Temporarily disabled with :noh
 set incsearch     " inremental search
 set lazyredraw    " no redrawing while executing macros (speed++)
 set list          " show spaces, tabs and continuations
@@ -51,6 +51,8 @@ set undofile
 set undolevels=1000
 set undoreload=10000
 
+set updatetime=1000
+
 function! SetTabstop( n )
     let &l:tabstop     = a:n
     let &l:softtabstop = a:n
@@ -71,8 +73,10 @@ syntax on
 " highlight OverLength ctermfg=darkred guibg=#FF0000
 " match     OverLength /\%81v.\+/
 
-if system('echo -n $TERM') != 'linux'
-
+if empty($DISPLAY)
+    set background=dark
+    colorscheme desert
+else
     " Cursor line and column in insert mode
     set nocursorcolumn
     autocmd InsertEnter * set cursorline
@@ -89,25 +93,22 @@ if system('echo -n $TERM') != 'linux'
     " Doesn't work for obsucure reasons...
     highlight JumpMarks guibg=lightgreen ctermfg=grey
     match     JumpMarks /«[^»]*»/
-
-else
-    set background=dark
-    colorscheme desert
 endif
 
 
 
 " Nice statusline, stolen from the internet.
 set statusline=
-set statusline+=\ #%n\      "buffer number
-set statusline+=%{&ff}      "file format
-set statusline+=%y          "file type
-set statusline+=\ %<%F      "full path
-set statusline+=%m          "modified flag
-set statusline+=%=%5l       "current line
-set statusline+=/%L         "total lines
-set statusline+=%4v\        "virtual column number
-set statusline+=0x%04B\     "character under cursor
+set statusline+=\ #%n\                            " buffer number
+set statusline+=%{&ff}                            " file format
+set statusline+=%y                                " file type
+set statusline+=\ %<%F                            " full path
+set statusline+=%m                                " modified flag
+set statusline+=%{fugitive#statusline()}          " git stuff
+set statusline+=%=%5l                             " current line
+set statusline+=/%L                               " total lines
+set statusline+=%4v\                              " virtual column number
+set statusline+=0x%04B\                           " character under cursor
 set laststatus=2
 
 " enable relative line numbering
@@ -218,26 +219,6 @@ filetype plugin on
 filetype indent on
 
 au BufRead,BufNewFile *.asm set filetype=nasm
-
-" ------------------------------- SYNTASTIC ---------------------------------- "
-" Syntastic slows down vim considerably.  It avoid this, its disabled by default
-" here.
-let g:syntastic_mode_map = { 'mode': 'passive'
-                         \ , 'active_filetypes': []
-                         \ ,'passive_filetypes': [] }
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list            = 0
-let g:syntastic_check_on_open            = 1
-let g:syntastic_check_on_wq              = 0
-let g:syntastic_asm_checkers             = ['nasm']
-let g:syntastic_cpp_compiler             = 'g++'
-let g:syntastic_cpp_compiler_options     = ' -std=c++11 -stdlib=libc++'
-let g:syntastic_disabled_filetypes       = ['haskell']
-nnoremap <C-w>E :SyntasticCheck<CR> :SyntasticToggleMode<CR>
-
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
 
 " ------------------------------- NERD TREE ---------------------------------- "
 " ASCII only

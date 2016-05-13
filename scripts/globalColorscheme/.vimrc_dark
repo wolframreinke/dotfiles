@@ -51,6 +51,8 @@ set undofile
 set undolevels=1000
 set undoreload=10000
 
+set updatetime=1000
+
 function! SetTabstop( n )
     let &l:tabstop     = a:n
     let &l:softtabstop = a:n
@@ -99,15 +101,16 @@ endif
 
 " Nice statusline, stolen from the internet.
 set statusline=
-set statusline+=\ #%n\      "buffer number
-set statusline+=%{&ff}      "file format
-set statusline+=%y          "file type
-set statusline+=\ %<%F      "full path
-set statusline+=%m          "modified flag
-set statusline+=%=%5l       "current line
-set statusline+=/%L         "total lines
-set statusline+=%4v\        "virtual column number
-set statusline+=0x%04B\     "character under cursor
+set statusline+=\ #%n\                            " buffer number
+set statusline+=%{&ff}                            " file format
+set statusline+=%y                                " file type
+set statusline+=\ %<%F                            " full path
+set statusline+=%m                                " modified flag
+set statusline+=%{fugitive#statusline()}          " git stuff
+set statusline+=%=%5l                             " current line
+set statusline+=/%L                               " total lines
+set statusline+=%4v\                              " virtual column number
+set statusline+=0x%04B\                           " character under cursor
 set laststatus=2
 
 " enable relative line numbering
@@ -119,6 +122,7 @@ set relativenumber
 "  +=================== KEY MAPPINGS AND ABBREVIATIONS ======================+
 " /---------------------------------------------------------------------------\
 
+nnoremap q:             :
 nnoremap <SPACE>        i_<ESC>r
 nnoremap <C-s>          :w<CR>
 nnoremap <C-q>          <ESC>
@@ -138,6 +142,7 @@ nnoremap k              gk
 vnoremap j              gj
 vnoremap k              gk
 
+inoremap jj             <ESC>
 inoremap <C-s>          <ESC>:w<CR>
 inoremap <F8>           :!make<CR>i
 
@@ -218,26 +223,6 @@ filetype plugin on
 filetype indent on
 
 au BufRead,BufNewFile *.asm set filetype=nasm
-
-" ------------------------------- SYNTASTIC ---------------------------------- "
-" Syntastic slows down vim considerably.  It avoid this, its disabled by default
-" here.
-let g:syntastic_mode_map = { 'mode': 'passive'
-                         \ , 'active_filetypes': []
-                         \ ,'passive_filetypes': [] }
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list            = 0
-let g:syntastic_check_on_open            = 1
-let g:syntastic_check_on_wq              = 0
-let g:syntastic_asm_checkers             = ['nasm']
-let g:syntastic_cpp_compiler             = 'g++'
-let g:syntastic_cpp_compiler_options     = ' -std=c++11 -stdlib=libc++'
-let g:syntastic_disabled_filetypes       = ['haskell']
-nnoremap <C-w>E :SyntasticCheck<CR> :SyntasticToggleMode<CR>
-
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
 
 " ------------------------------- NERD TREE ---------------------------------- "
 " ASCII only

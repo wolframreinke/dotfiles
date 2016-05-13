@@ -11,7 +11,12 @@ else
     target=${HOME}
 fi
 
-echo "installing to: ${target}"
+echo -n "Caution!  This script is out-of-date, you will have to manually       \
+         install .vimrc, .tmux.conf and .Xresources, since the most recent     \
+         versions of these files now reside in scripts/globalColorscheme."     \
+         | tr -s " " | fold -s -w 80
+
+echo -e "\n\ninstalling to: ${target}"
 echo -n "Existing install files in the target directory will be deleted. Are \
          you sure, you wish to continue? (y/n) " | tr -s " " | fold -s -w 80
 read response
