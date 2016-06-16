@@ -1,10 +1,7 @@
 setlocal tw=80
-setlocal tw=80
-setlocal shiftwidth=4
-setlocal tabstop=4
-setlocal softtabstop=4
 setlocal expandtab
+call SetTabstop(4)
 
-setlocal formatoptions+=croql
+setlocal formatoptions=tcroqlnMj
 
 nnoremap <buffer> <leader>im    :split +/import<CR>

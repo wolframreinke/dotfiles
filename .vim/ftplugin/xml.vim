@@ -11,6 +11,8 @@ augroup XMLGroup
     autocmd BufWritePost *.xsd :call TMUXRefresh_Refresh()
 augroup END
 
+let b:TMUXRefreshActivated = 0
+
 nnoremap <buffer> <leader>gr    :call TMUXRefresh_Cycle()<CR>
 nnoremap <buffer> <leader>gss   :call AskForSchema()<CR>
 nnoremap <buffer> <leader>gsx   :call AskForXSLTStylesheet()<CR>

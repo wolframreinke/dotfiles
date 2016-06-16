@@ -15,6 +15,8 @@ setlocal softtabstop=4
 setlocal smarttab
 setlocal expandtab
 
+setlocal formatoptions=tcroqlnMj
+
 nnoremap <buffer> <leader>gr    :call PyTogglePythonReload()<CR>
 function! PyTogglePythonReload()
     if exists('b:python_send_reload')
