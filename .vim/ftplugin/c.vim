@@ -8,6 +8,8 @@ setlocal expandtab
 
 setlocal formatoptions=tcroqlnMj
 
+nnoremap <buffer> <leader>im    :split +/#include<CR>
+
 " Switching between header and body
 nnoremap <buffer> <leader>bh    :call CGotoHeader()<CR>
 nnoremap <buffer> <leader>bb    :call CGotoBody()<CR>

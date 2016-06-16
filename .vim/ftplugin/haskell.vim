@@ -22,6 +22,7 @@ augroup END
 " |                               KEYBINDINGS                                | "
 " +--------------------------------------------------------------------------+ "
 
+nnoremap <buffer> <leader>im    :split +/import<CR>
 
 " Hdevtools commands
 nnoremap <buffer> <F1>          :HdevtoolsType<CR>
@@ -31,8 +32,6 @@ nnoremap <buffer> <F3>          :HdevtoolsInfo<CR>
 " Keysnippets command
 inoremap <buffer> <leader>fn    <Space>:: «type\|Integer»<ESC>o= undefined<ESC>
                                \_h<C-v>kI
-inoremap <buffer> <leader>im    import <C-o>mt («imports»)<ESC>`ta
-inoremap <buffer> <leader>ia    import
 inoremap <buffer> <leader>mo    module where<ESC>bbea<Space>
 inoremap <buffer> <leader>da    data <C-o>mt = «data-decl»<ESC>`ta
 inoremap <buffer> <leader>ty    type <C-o>mt = «type-decl»<Esc>`ta

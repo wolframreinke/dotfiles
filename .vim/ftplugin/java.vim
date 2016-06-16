@@ -7,4 +7,4 @@ setlocal expandtab
 
 setlocal formatoptions+=croql
 
-let java_ignore_javadoc = 1
+nnoremap <buffer> <leader>im    :split +/import<CR>

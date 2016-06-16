@@ -44,6 +44,8 @@ function! PythonReload()
     endif
 endfunction
 
+nnoremap <buffer> <leader>im    :split +/import<CR>
+
 " interaction with the python interpreter
 nnoremap <buffer> <F7> :!python %<CR>
 nnoremap <buffer> <F9> :!python -i %<CR>
