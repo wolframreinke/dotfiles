@@ -20,5 +20,5 @@ if [ -z "${PATH_CUSTOMIZATIONS}" ]; then
     export PATH_CUSTOMIZATIONS=true
 fi
 
-export JAVA_HOME="/opt/java/jdk1.8.0_45/jre/bin"
+export JAVA_HOME="/opt/java/jdk1.8.0_45/jre"
 export EDITOR=vim

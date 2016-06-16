@@ -40,11 +40,15 @@ function xkcd {
 }
 
 function _clear_and_l {
-    source ${HOME}/scripts/lib/colors.sh
+    local COLOR_CYAN='\033[1;36m'
+    local COLOR_RESET='\033[0m'
     clear
-    echo -e "${FG_COLOR_CYAN}$(pwd)${FG_COLOR_RESET}"
-    ls -l --color --group-directories-first | tail -n +2
-    unsource_colors
+    echo -e "${COLOR_CYAN}$(pwd)${COLOR_RESET}"
+    ls -lh --color --group-directories-first | tail -n +2
+}
+
+function colormake {
+    make $1 2>&1 | $HOME/programming/lang/haskell/colorize/dist/build/colorize/colorize $HOME/programming/lang/haskell/colorize/rules/gcc.rules >&2
 }
 
 # Custom Aliases
@@ -83,3 +87,5 @@ alias redshift='ps -e | grep redshift >/dev/null 2>&1 || $(cat $HOME/data/notes/
 alias tree='tree -CFAla'
 # alias which='slwhich'
 alias session='snip with sessions'
+
+alias make=colormake
