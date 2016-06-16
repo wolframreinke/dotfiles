@@ -5,16 +5,17 @@
 \usepackage{graphicx}                    % Images!
 \usepackage{hyperref}                    % clickable references and links
 \usepackage{lipsum}                      % insert lorem-ipsum anywhere
-\usepackage{subcaption}
+\usepackage{subcaption}                  % captions for subfigures
 \usepackage{xargs}
 \usepackage{xfrac}                       % More kinds of fractions
-\usepackage{xspace}
-\usepackage{relsize}
+\usepackage{xspace}                      % More kinds of spacing
+\usepackage{relsize}                     % Macros like \smaller
 \usepackage[acronym, nonumberlist, nopostdot, style=altlist, nogroupskip]{glossaries}
-\usepackage{listings}
-\usepackage{color}
-\usepackage{xcolor}
-\usepackage{courier}
+\usepackage{listings}                    % source code listings
+\usepackage{color}                       % color macros
+\usepackage{xcolor}                      % better color macros
+\usepackage{courier}                     % enables the courier font in listings
+\usepackage[utf8]{inputenc}              % UTF-8 encoded input (umlauts!)
 
 \input{src/lstsettings.tex}
 

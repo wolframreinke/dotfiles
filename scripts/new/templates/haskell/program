@@ -3,7 +3,7 @@
 -- Description : Add a short description here
 -- Copyright   : (c) %(author)
 -- License     : None
--- &(FILENAME=Main.hs)
+--&(FILENAME=Main.hs)
 -- Maintainer  : $(echo $author)
 -- Stability   : Add a stability note here
 -- Portability : Add a portability note here

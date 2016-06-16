@@ -67,7 +67,7 @@
   \cleardoublepage
   \addcontentsline{toc}{section}{\bibname}
   \bibliographystyle{plain}
-  \bibliography{t4000}
+  \bibliography{%(name)}
 
   \cleardoublepage
   \phantomsection

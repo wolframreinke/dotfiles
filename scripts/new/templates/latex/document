@@ -1,0 +1,25 @@
+\documentclass[11pt,a4paper,oneside]{scrreprt}&(FILENAME=%(filename))
+
+\usepackage[ngerman]{babel}
+\usepackage{lipsum}
+\usepackage{xspace}
+\usepackage[utf8]{inputenc}
+
+% Uncomment, if you want a sans-serif font
+% \renewcommand{\familydefault}{\sfdefault}
+
+\begin{document}
+
+  \begin{center}
+    \today{}
+    \vspace{3mm}
+
+    \textsf{\textbf{\LARGE %(title|Document title)}}
+
+    \vspace{6mm}
+  \end{center}
+
+  \noindent
+  Erster Absatz
+
+\end{document}
