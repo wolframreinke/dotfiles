@@ -86,7 +86,11 @@ function _bm_main
 
                         local LEFT=$(echo ${FILENAME} | grep -Poi '(?<=\/)((?!\/).)*?(?=\.bm)')
                         local RIGHT=$(cat ${FILENAME})
-                        printf "%-20s - %s\n" ${LEFT} ${RIGHT}
+                        if [ ! -e "${RIGHT}" ]; then
+                            printf "%-20s - \e[0;31m%s\e[0m\n" ${LEFT} ${RIGHT}
+                        else
+                            printf "%-20s - %s\n" ${LEFT} ${RIGHT}
+                        fi
                     else
                         echo "(none)"
                     fi
