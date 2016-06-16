@@ -10,7 +10,7 @@ let mapleader = ","
 set autoindent    " use automatic indentation
 set expandtab     " convert tabs to spaces
 set hidden        " switch between unsaved buffers
-set hlsearch      " highlight search results.  Temporarily disabled with :noh
+set nohlsearch    " no highlight search results.
 set incsearch     " inremental search
 set lazyredraw    " no redrawing while executing macros (speed++)
 set list          " show spaces, tabs and continuations
@@ -73,8 +73,10 @@ syntax on
 " highlight OverLength ctermfg=darkred guibg=#FF0000
 " match     OverLength /\%81v.\+/
 
-if system('echo -n $TERM') != 'linux'
-
+if empty($DISPLAY)
+    set background=dark
+    colorscheme desert
+else
     " Cursor line and column in insert mode
     set nocursorcolumn
     autocmd InsertEnter * set cursorline
@@ -91,10 +93,6 @@ if system('echo -n $TERM') != 'linux'
     " Doesn't work for obsucure reasons...
     highlight JumpMarks guibg=lightgreen ctermfg=grey
     match     JumpMarks /«[^»]*»/
-
-else
-    set background=dark
-    colorscheme desert
 endif
 
 
@@ -134,7 +132,6 @@ nnoremap <F8>           :!make<CR>
 nnoremap n              nzz
 nnoremap N              Nzz
 nnoremap <leader>rr     #:%s///g<Left><Left>
-nnoremap <leader>t      :Tabularize /=<CR>
 
 " Makes working with soft wraps easier
 nnoremap j              gj
@@ -259,3 +256,10 @@ let g:rainbow_active = 0
 " ------------------------------- DELIMITMATE -------------------------------- "
 let g:delimitMate_expand_cr    = 1
 let g:delimitMate_expand_space = 1
+
+" ------------------------------- TABULARIZE --------------------------------- "
+nnoremap <buffer> <leader>t :call AlignWithTabularize()<CR>
+function! AlignWithTabularize()
+    let l:char = getchar()
+    call feedkeys(':Tabularize /' . nr2char(l:char) . '', 'n')
+endfunction
