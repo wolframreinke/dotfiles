@@ -1,0 +1,67 @@
+.TH SNIP 1 "20 April 2016" "version 1.0"
+
+.SH NAME
+ship - script for managing and executing shell code snippets
+
+.SH SYNOPSIS
+.BR "snip"
+.RI "[" "COMMAND" "] " "PARAMETERS"
+
+.SH DESCRIPTION
+.B snip
+provides quick access to small shell scripts called "snippets".  These snippets
+are stored hierarchically, so that this script essentially provides convenient
+namespacing for bash scripts.
+
+.PP
+If no
+.I COMMAND
+is provided,
+.B exec
+is assumed.
+
+.SH COMMANDS
+
+.IP help
+Displays this help message and exits.
+
+.IP add
+Adds a new snippet to the snippet library.  Two parameters are required.  The
+first one is the name of the local file you wish to add to the library.  The
+second parameter is the new namespaced name.  Example:
+
+        > snip add  file.sh  util/misc/file
+
+.IP remove
+Removes one or more snippets from the library.  The only parameter is the name
+of the snippet to remove, or the name of the namespace.  You will be prompted to
+confirm this command.  Example:
+
+        > snip remove  util/misc   # deletes all snippets in util/misc
+
+.IP exec
+Executes a snippet.  The first parameter is the name of the targeted snippet,
+all following ones are passed as parameters to the snippet.
+
+.IP list
+Lists all available snippets.  If a namespace is provided, all snippets in this
+namespace are listed.
+
+.IP with
+Fixes the first part of the namespace path. Therefore,
+
+        > snip with util exec misc/file
+
+executes the snippet util/misc/file.  This is useful if you want to give certain
+namespaces a bash alias, e.g.
+
+        > alias session='snip with sessions'
+
+allows you to use
+
+        > session haskell
+
+directly, without having to type the namespace path.
+
+.SH AUTHORS
+Wolfram Reinke <WolframReinke@web.de>

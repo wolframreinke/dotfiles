@@ -1,0 +1,76 @@
+.TH BM 1 "20 April 2016" "version 1.3"
+
+.SH NAME
+bm - Bookmarks for file-system locations
+
+.SH SYNOPSIS
+.BR "bm" " [" "-hl" "] [" "--cleartmp" "] [" "-s "
+.IR "name"
+.RB "[" "-t" "]] [" "-g "
+.IR "name" "]"
+.RB "[" "-l" "] [" "-r "
+.IR "name" "]"
+.RB "[" "-p "
+.IR "name" "]"
+
+.SH DESCRIPTION
+.B bm
+allows to bookmark locations file-system locations.  This makes it possible to
+quickly navigate to the bookmarked locations by using their bookmark name
+instead of the full path.
+
+.PP
+Bookmarks are grouped into temporary and permanent bookmarks.  All temperorary
+bookmarks can be deleted by using the
+.B --cleartmp
+option.  Permament bookmarks have to be removed individually by using the
+.B --remove
+option.
+
+.SH OPTIONS
+
+.IP "-h, --help"
+Displays this help message and exits.
+
+.IP "-s, --set"
+The current working directory is saved as a bookmark.  If a
+.I name
+is provided, its used as the bookmark name.  Otherwise, the user is prompted to
+enter the name of the new bookmark.  Existing bookmarks are overwritten without
+warning.  If the
+.B -t
+switch is active, the bookmark is stored as a temporary bookmark, otherwise it
+is stored permanently.
+
+.IP "-g, --goto"
+The current working directory is changed to the location, associated with the
+specified
+.IR "name" "."
+If no name is provided, the user is prompted to specify the name interactively.
+
+.IP "-l, --list"
+Lists all permanent and temporary bookmarks.  Broken links are colored red.
+
+.IP "-r, --remove"
+Removes the bookmark with the specified
+.IR "name" "."
+If no name is provided, the user is prompted to specify the name interactively.
+
+.IP "-p, --print"
+Prints the path of the bookmarked location with the specified
+.IR "name" "."
+If no name is provided, the user is prompted to specify the name interactively.
+
+.IP "-t, --tmp"
+Influences the
+.B -s
+option.  If the
+.B -t
+switch is used, the bookmark is stored as a temporary bookmark, otherwise it is
+stored as a permanent bookmark.
+
+.IP "-ct, --cleartmp"
+Deletes all temporary bookmarks.
+
+.SH AUTHORS
+Wolfram Reinke <wolframreinke@web.de>

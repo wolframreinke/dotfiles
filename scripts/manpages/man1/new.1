@@ -1,0 +1,100 @@
+.TH NEW 1 "19 April 2016" "version 1.1"
+
+.SH NAME
+new - file template management script
+
+.SH SYNOPSIS
+.BR "new" " [-" "hdqlv" "]"
+.RI "[" "category" " [" "sub-category" " [...]]] " "name"
+
+.SH DESCRIPTION
+.B new
+makes it possible to create new files from templates.  File templates have a
+name and can be grouped into categories, sub-categories, and so on.
+
+.PP
+File templates are text files with special place holders.  The template
+instantiation process and the three kinds of place holders are explained in
+the section
+.BR "HOW TO WRITE TEMPLATES" "."
+
+.SH OPTIONS
+
+.IP "-h, --help"
+Displays this help message and exits.
+
+.IP "-d, --debug"
+Enables debug output, which results in very detailed messages about what the
+script is doing.
+
+.IP "-q, --quiet"
+No output whatsoever.  Without this option, the script will prompt the user
+for values of place holders in the template, e.g. author and file name.  This
+option therefore makes the script useless for interactive usage.  However,
+.B -q
+can be handy to reply to the prompts in an automated way.  For instance, you
+could call this script like so:
+
+        > echo "game" | new --quiet C header
+
+The above will create a new C header file (if such a template exists) with the
+name "game.h" and all contents adapted to this name.
+
+.IP "-l, --list"
+Do not create a new file from a template, but list all available templates.
+
+.IP "-v, --vim"
+If the template instantiation was successful, the resulting file is opened in
+.B vim
+(1).
+
+.SH "HOW TO WRITE TEMPLATES"
+
+File templates can be created in the "templates" directory, where the "new"
+script is located.  Categories and sub-categories map to folders in the
+filesystem, so if you want to create a "C windows program" you simply create
+a file called "program" inside a folder called "windows" inside a folder
+called "C".
+
+.PP
+The file templates used by this script are plain text files with some
+special syntax.  There are three special syntax forms, you can embed in file
+templates:
+
+.IP "%(name|prompt)"
+Prompts the user to enter a value and writes this value to the place where this
+%() was found.  If you provide a
+.IR "prompt" ","
+then this string will be displayed to
+the user instead of just the name of the replacement.  Otherwise, the
+.I name
+is used.  An exemplary template
+could contain the following line:
+
+        > // Filename: %(module|Enter a module name).c
+
+As a side effect, the result will stored in a bash variable called
+.IR "name" "."
+When another %() with the same name is found, the user is not prompted again,
+and the variables value is reused.
+
+.IP "$(shell-command)"
+Executes the bash command
+.I shell-command
+and writes its output to the place where the $() was found.  Since %() inputs
+are written to bash variables, user inputs can be transformed in $() place
+holders.
+
+.IP &(assignment)
+This construct is removed without replacement from the template file.
+.I assignment
+has to be a valid bash assignment command.  This is used to set environment
+variables that are then used by the new-script itself.  For instance
+
+        > &(FILENAME=$(echo $module).h)
+
+will set the filename of the new file to the module's name + ".h".  At the
+moment FILENAME is the only variable you can set.
+
+.SH AUTHORS
+Wolfram Reinke <wolframreinke@web.de>
