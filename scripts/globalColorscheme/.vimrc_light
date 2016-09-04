@@ -24,6 +24,7 @@ set ttyfast       " assumes a fast terminal and sends more chars for redrawing
 set wildmenu      " insert best guess for Tab-completion
 set exrc          " Source local .vimrc files
 set secure        " Only source .vimrc files owned by me
+set splitright    " New vertical splits are created on the right hand side
 
 " [TAB]-Completion in ex-command line.  Completes the longest common part of
 " all matches and displays all potential matches.  Pressing [TAB] again
@@ -60,7 +61,8 @@ function! SetTabstop( n )
 endfunction
 
 autocmd BufRead,BufNewFile *.hsi set filetype=haskell
-autocmd BufRead,BufNewFile *.bf set filetype=brainfuck
+autocmd BufRead,BufNewFile *.bf  set filetype=brainfuck
+autocmd BufRead,BufNewFile *.md  set filetype=markdown
 
 " \---------------------------------------------------------------------------/
 "  +============================= APPEARENCE ================================+
@@ -73,7 +75,7 @@ syntax on
 " highlight OverLength ctermfg=darkred guibg=#FF0000
 " match     OverLength /\%81v.\+/
 
-if empty($DISPLAY)
+if empty($DISPLAY) " if neither terminal emulator nor GUI, i.e. plain tty
     set background=dark
     colorscheme desert
 else
@@ -95,6 +97,10 @@ else
     match     JumpMarks /«[^»]*»/
 endif
 
+autocmd WinEnter * set relativenumber
+autocmd WinEnter * set number
+autocmd WinLeave * set norelativenumber
+autocmd WinLeave * set nonumber
 
 
 " Nice statusline, stolen from the internet.
