@@ -10,7 +10,7 @@ FROWNEY="${FG_COLOR_RED_DARK}:(${FG_COLOR_BLUE}"
 
 FACE='echo -e $($HOME/scripts/ps1Modes/getSmiley.sh $?)'
 
-export PS1="\\[${FG_COLOR_GREEN}\\]\u\\[${FG_COLOR_BLUE}\\] \$($FACE) \W\\[${FG_COLOR_RESET}\\] (\$(date +%R))> "
+export PS1="\\[${FG_COLOR_GREEN}\\]\u\\[${FG_COLOR_RESET}\\] \$($FACE) \\[${FG_COLOR_YELLOW}\\]\W\\[${FG_COLOR_RESET}\\] (\$(date +%R))> "
 
 # all those environment variables pollute the bash. This function removes them
 unsource_colors
