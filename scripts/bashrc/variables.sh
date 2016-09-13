@@ -13,11 +13,16 @@ if [ -z "${PATH_CUSTOMIZATIONS}" ]; then
     # lower priority than the default components
     export PATH="$PATH:/opt/java/jdk1.8.0_45/bin" # all the java stuff
     export PATH="$PATH:$HOME/.cabal/bin"          # stuff installed via cabal
+    export PATH="$PATH:$HOME/.local/bin"
     export PATH="$PATH:$HOME/data/programFiles/dasht/bin"
 
     export MANPATH="$MANPATH:$HOME/scripts/manpages"
 
     export PATH_CUSTOMIZATIONS=true
+    export MAIL=/var/spool/mail/wolfram
+
+    LS_COLORS=$LS_COLORS:'di=1;33'
+    export LS_COLORS
 fi
 
 export JAVA_HOME="/opt/java/jdk1.8.0_45/jre"

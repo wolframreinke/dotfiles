@@ -47,9 +47,8 @@ function _clear_and_l {
     ls -lh --color --group-directories-first | tail -n +2
 }
 
-function colormake {
-    make $1 2>&1 | $HOME/programming/lang/haskell/colorize/dist/build/colorize/colorize $HOME/programming/lang/haskell/colorize/rules/gcc.rules >&2
-}
+function colormake { make ${@} 2>&1 | colorize gcc >&2 ; }
+function colorgcc  { gcc  ${@} 2>&1 | colorize gcc >&2 ; }
 
 # Custom Aliases
 alias c='_clear_and_l'
@@ -89,3 +88,4 @@ alias tree='tree -CFAla'
 alias session='snip with sessions'
 
 alias make=colormake
+alias gcc=colorgcc
