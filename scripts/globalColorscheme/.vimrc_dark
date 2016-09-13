@@ -59,6 +59,7 @@ function! SetTabstop( n )
     let &l:softtabstop = a:n
     let &l:shiftwidth  = a:n
 endfunction
+call SetTabstop(4)
 
 autocmd BufRead,BufNewFile *.hsi set filetype=haskell
 autocmd BufRead,BufNewFile *.bf  set filetype=brainfuck

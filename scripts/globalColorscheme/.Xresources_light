@@ -1,5 +1,5 @@
-!XTerm*faceName: Droid Sans Mono
-XTerm*faceSize: 9
+XTerm*faceName: Ubuntu Mono
+XTerm*faceSize: 10
 XTerm*vt100*geometry: 80x60
 XTerm*saveLines: 16384
 XTerm*loginShell: true
