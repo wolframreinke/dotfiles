@@ -7,12 +7,12 @@
  *  Add a description here!
  *
  * ---------------------------------------------------------------------------
- */&(FILENAME=$(echo $header).h)
+ */&(FILENAME=%(header).h)
 
-#ifndef $(echo __${header}_H_ | tr '[:lower:]' '[:upper:]')
-#define $(echo __${header}_H_ | tr '[:lower:]' '[:upper:]')
+#ifndef $(echo _%(header)_H_ | tr '[:lower:]' '[:upper:]')
+#define $(echo _%(header)_H_ | tr '[:lower:]' '[:upper:]')
 
 
 
-#endif /* $(echo __${header}_H_ | tr '[:lower:]' '[:upper:]') */
+#endif /* $(echo _%(header)_H_ | tr '[:lower:]' '[:upper:]') */
 

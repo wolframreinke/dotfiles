@@ -7,6 +7,6 @@
  *  Add a description here!
  *
  * ---------------------------------------------------------------------------
- */&(FILENAME=$(echo $module).c)
+ */&(FILENAME=%(module).c)
 
-#include "$(echo $module).h"$(echo -e "$module" | new -q c header)
+#include "%(module).h"$(new c header %(module))
