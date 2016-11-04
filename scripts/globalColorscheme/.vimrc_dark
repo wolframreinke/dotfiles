@@ -217,6 +217,19 @@ function! ReadToX(message, default)
     let @x = input(a:message, a:default)
 endfunction
 
+nnoremap <F2> :call ReloadEverything()<CR>
+if !exists("g:reload_everything")
+    function! ReloadEverything()
+        source ~/.vimrc
+        if filereadable(".vimrc")
+            source .vimrc
+        endif
+        let x = &filetype
+        execute 'set filetype=' . x
+    endfunction
+    let g:reload_everything = 1
+endif
+
 " \---------------------------------------------------------------------------/
 "  +============================== PLUG-INS =================================+
 " /---------------------------------------------------------------------------\
@@ -269,3 +282,6 @@ function! AlignWithTabularize()
     let l:char = getchar()
     call feedkeys(':Tabularize /' . nr2char(l:char) . '', 'n')
 endfunction
+
+" --------------------------------- POLYGLOT --------------------------------- "
+let g:polyglot_disabled = []

@@ -2,6 +2,8 @@
 " |                          ENVIRONMENT VARIABLES                           | "
 " +--------------------------------------------------------------------------+ "
 
+let maplocalleader = ","
+
 setlocal tabstop=2
 setlocal shiftwidth=2
 setlocal softtabstop=2
@@ -10,21 +12,18 @@ setlocal expandtab
 
 setlocal omnifunc=necoghc#omnifunc
 setlocal keywordprg=hooglepager
-setlocal includeexpr=FindInclude(v:fname)
 
 augroup HaskellGroup
     autocmd!
-    autocmd BufWritePost *.hs*  :call HaskellGHCIReload()
+    autocmd BufWritePost *.idr*  :call HaskellGHCIReload()
 augroup END
 
-function! FindInclude(modname)
-    let fname = substitute(a:modname, '\.', '/', 'g') . '.hs'
-    if filereadable(fname)
-        return fname
-    else
-        return 'src/' . fname
-    endif
-endfunction
+" +--------------------------------------------------------------------------+ "
+" |                              UNICODE STUFF                               | "
+" +--------------------------------------------------------------------------+ "
+inoremap <buffer> \> →
+inoremap <buffer> \l λ
+inoremap <buffer> \L Λ
 
 " +--------------------------------------------------------------------------+ "
 " |                               KEYBINDINGS                                | "
@@ -32,28 +31,11 @@ endfunction
 
 nnoremap <buffer> <leader>im    :split +/import<CR>
 
-" Hdevtools commands
-nnoremap <buffer> <F1>          :HdevtoolsType<CR>
-nnoremap <buffer> <F2>          :HdevtoolsClear<CR>
-nnoremap <buffer> <F3>          :HdevtoolsInfo<CR>
-
-" Keysnippets command
-inoremap <buffer> <leader>fn    <Space>:: «type\|Integer»<ESC>o= undefined<ESC>
-                               \_h<C-v>kI
-inoremap <buffer> <leader>mo    module where<ESC>bbea<Space>
-inoremap <buffer> <leader>da    data <C-o>mt = «data-decl»<ESC>`ta
-inoremap <buffer> <leader>ty    type <C-o>mt = «type-decl»<Esc>`ta
-inoremap <buffer> <leader>ri    <ESC>kyt<Space>jpA = undefined<ESC>b
-inoremap <buffer> <leader>l     {-# LANGUAGE <C-o>mt #-}<ESC>`ta
-
-inoremap <buffer> <leader>iq    <Esc>:call HaskellImportQualified()<CR>
 nnoremap <buffer> <leader>gr    :call HaskellToggleGHCIReload()<CR>
 
 " GHCi control
 nnoremap <buffer> <leader>ggt   :call HaskellGHCIDo('(GHCi Type) Function: ',':t')<CR>
 nnoremap <buffer> <leader>ggi   :call HaskellGHCIDo('(GHCi Info) Function: ',':info')<CR>
-nnoremap <buffer> <leader>ggh   :call HaskellGHCIDo('(GHCi Hoogle) Search: ',':hoogle')<CR>
-nnoremap <buffer> <leader>ggd   :call HaskellGHCIDo('(GHCi Hoogle) Doc: ',':doc')<CR>
 
 nnoremap <buffer> <leader>gt    viw:call HaskellGHCIQuery(':t', 1)<CR>
 vnoremap <buffer> <leader>gt       :call HaskellGHCIQuery(':t', 1)<CR>
@@ -65,19 +47,28 @@ vnoremap <buffer> <leader>gd       :call HaskellGHCIQuery(':doc', 0)<CR>
 nnoremap <buffer> <leader>git   viw:call HaskellGHCIInsertType()<CR>
 vnoremap <buffer> <leader>git      :call HaskellGHCIInsertType()<CR>
 
-" Cabal control
-nnoremap <buffer> <leader>gcc   :call HaskellGHCIDo('cabal ',':!cabal')<CR>
-nnoremap <buffer> <leader>gct   :call HaskellGHCIExec(':!cabal test')<CR>
-nnoremap <buffer> <leader>gcr   :call HaskellGHCIExec(':!cabal run')<CR>
-nnoremap <buffer> <leader>gcb   :call HaskellGHCIExec(':!cabal build')<CR>
-nnoremap <buffer> <leader>gch   :call HaskellGHCIExec(':!cabal haddock')<CR>
+nnoremap <buffer> gf            viW:call HaskellOpenModule()<CR>
+vnoremap <buffer> gf            :call HaskellOpenModule()<CR>
 
-nnoremap <buffer> <leader>re    viW:call HaskellExtractVar()<CR>
-vnoremap <buffer> <leader>re    :call HaskellExtractVar()<CR>
 
 " +--------------------------------------------------------------------------+ "
 " |                                FUNCTIONS                                 | "
 " +--------------------------------------------------------------------------+ "
+if !exists("*HaskellOpenModule")
+    function HaskellOpenModule()
+        normal gv"yy
+        let l:path = substitute(@y, '\.', '/', 'g') . '.hs'
+        if filereadable(l:path)
+            edit l:path
+        elseif filereadable('src/' . l:path)
+            let l:path = 'src/' . l:path
+            execute 'edit ' . l:path
+        else
+            echo "Could not find module " . @y
+        endif
+    endfunction
+endif
+
 " Execute a command in GHCi after asking the user for a parameter.  The first
 " argument of this function is the text that is displayed to the user.
 function! HaskellGHCIDo(text, cmd)
@@ -143,27 +134,4 @@ function! HaskellGHCIReload()
             call feedkeys(':SlimeSend1 :test', 'n')
         endif
     endif
-endfunction
-
-" Import a haskell module qualified, automatically generating an abbreviation
-" for it.
-function! HaskellImportQualified()
-    let @x = input( 'Module: ', '' )
-    let l:mlen = strlen(@x)
-    let l:i = l:mlen - 1
-    while (l:i >= 0) && (@x[l:i] != '.')
-        let l:i -= 1
-    endwhile
-    let @y = @x[l:i + 1]
-    call feedkeys('iimport qualified x as y', 'n')
-endfunction
-
-" Replaces the selected text with a new local variable and puts it to the
-" enclosing functions "where" clause.
-function! HaskellExtractVar()
-    normal gv"yy
-    normal mt
-    let @x = input( 'Variable name: ' )
-    call feedkeys( 'vip:s/y/x/g', 'n' )
-    call feedkeys( "'>occ  where  x = y`t:noh", 'n' )
 endfunction
